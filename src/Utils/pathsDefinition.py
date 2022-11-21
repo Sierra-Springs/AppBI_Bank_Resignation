@@ -3,7 +3,7 @@ import os
 
 
 modelSavePath = Path(os.path.dirname(__file__)).parent.parent
-figPath = modelSavePath / "Rapport/fig"
+figPath = modelSavePath/"Rapport/fig"
 
 if __name__ == "__main__":
     print(modelSavePath)

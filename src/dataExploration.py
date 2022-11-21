@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 from Utils.pathsDefinition import *
+from Utils.names import *
 
 
-if __name__ == "__main__":
+def plot_numeric_distributions():
     table1 = pd.read_csv("Data/donnees_banque/table1.csv")
 
     print(table1.describe())
@@ -18,10 +19,25 @@ if __name__ == "__main__":
 
     print(table1_num.columns)
     for col in table1_num.columns:
-        #plt.hist(table1[col])
+        # plt.hist(table1[col])
         plt.title(col)
         sns.distplot(table1_num[col], hist=False, kde=True,
                      kde_kws={'linewidth': 3})
-        plt.show()
         plt.savefig(f"{figPath}/{col}.png")
+        plt.show()
+
+
+def plot_non_numeric_distributions():
+    table1 = pd.read_csv("Data/donnees_banque/table2.csv")
+
+    print(len(table1["DTNAIS"][table1["DTNAIS"] == V_DATE_NULL]))
+    print(len(table1))
+
+if __name__ == "__main__":
+    #plot_numeric_distributions()
+    #plot_non_numeric_distributions()
+    table1 = pd.read_csv("Data/donnees_banque/table1.csv")
+
+    print(table1.describe())
+    print(table1.columns)
 

@@ -1,0 +1,34 @@
+# specific Values
+V_DATE_NULL = "0000-00-00"
+
+
+# Columns String names
+CS_DTNAIS = "DTNAIS"
+CS_DTADH = "DTADH"
+CS_DTDEM = "DTDEM"
+CS_ANNEEDEM = "ANNEEDEM"
+CS_RANGDEM = "RANGDEM"
+
+# Columns Categorical String names
+
+CCS_CDMOTDEM = "CDMOTDEM"
+
+# Columns Numeric names
+
+CN_ID = "ID"
+CN_MTREV = "MTREV"
+CN_NBENF = "NBENF"
+CN_AGEAD = "AGEAD"
+CN_AGEDEM = "AGEDEM"
+CN_ADH = "ADH"
+
+# Columns Categorical (numerical) names
+
+CCN_CDSEXE = "CDSEXE"
+CCN_CDSITFAM = "CDSITFAM"
+CCN_CDTMT = "CDTMT"
+CCN_CDDEM = "CDDEM"
+CCN_CDCATCL = "CDCATCL"
+CCN_RANGAGEAD = "RANGAGEAD"
+CCN_RANGAGEDEM = "RANGAGEDEM"
+CCN_RANGADH = "RANGADH"
