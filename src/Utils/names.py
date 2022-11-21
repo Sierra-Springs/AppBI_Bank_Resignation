@@ -9,9 +9,11 @@ CS_DTDEM = "DTDEM"
 CS_ANNEEDEM = "ANNEEDEM"
 CS_RANGDEM = "RANGDEM"
 
+
 # Columns Categorical String names
 
 CCS_CDMOTDEM = "CDMOTDEM"
+
 
 # Columns Numeric names
 
@@ -21,6 +23,7 @@ CN_NBENF = "NBENF"
 CN_AGEAD = "AGEAD"
 CN_AGEDEM = "AGEDEM"
 CN_ADH = "ADH"
+
 
 # Columns Categorical (numerical) names
 
