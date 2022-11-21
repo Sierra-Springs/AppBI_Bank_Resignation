@@ -6,6 +6,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from Utils.pathsDefinition import *
+
 
 if __name__ == "__main__":
     table1 = pd.read_csv("Data/donnees_banque/table1.csv")
@@ -21,4 +23,5 @@ if __name__ == "__main__":
         sns.distplot(table1_num[col], hist=False, kde=True,
                      kde_kws={'linewidth': 3})
         plt.show()
+        plt.savefig(f"{figPath}/{col}.png")
 
