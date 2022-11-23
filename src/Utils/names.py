@@ -1,4 +1,7 @@
 # specific Values
+V_DTNAIS_NULL = "0000-00-00"
+V_MTREV_NULL = 0  # 0 -> val manquante?
+V_RANGADH_NULL = None  # !!! Utiliser la méthode "is_equal_to" de dataExploration
 V_DATE_NULL = "0000-00-00"
 V_DATE_ODD = "1900-01-00"
 
@@ -10,18 +13,21 @@ CS_DTDEM = "DTDEM"
 CS_ANNEEDEM = "ANNEEDEM"
 CS_RANGDEM = "RANGDEM"
 
+
 # Columns Categorical String names
 
 CCS_CDMOTDEM = "CDMOTDEM"
 
+
 # Columns Numeric names
 
 CN_ID = "ID"
-CN_MTREV = "MTREV"
-CN_NBENF = "NBENF"
+CN_MTREV = "MTREV"  # Montant des revenus
+CN_NBENF = "NBENF"  # Nombre d’enfants
 CN_AGEAD = "AGEAD"
 CN_AGEDEM = "AGEDEM"
 CN_ADH = "ADH"
+
 
 # Columns Categorical (numerical) names
 
