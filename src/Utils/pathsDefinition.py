@@ -2,9 +2,11 @@ from pathlib import Path
 import os
 
 
-modelSavePath = Path(os.path.dirname(__file__)).parent.parent
-figPath = modelSavePath/"Rapport/fig"
+projectPath = Path(os.path.dirname(__file__)).parent.parent
+figPath = projectPath / "Rapport/fig"
+textPartsPath = projectPath / "Rapport" / "texParts"
+
 
 if __name__ == "__main__":
-    print(modelSavePath)
-    print(modelSavePath/"hello"/"hi")
+    print(projectPath)
+    print(projectPath / "hello" / "hi")

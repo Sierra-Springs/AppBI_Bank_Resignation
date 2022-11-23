@@ -4,7 +4,10 @@ V_MTREV_NULL = 0  # 0 -> val manquante?
 V_RANGADH_NULL = None  # !!! Utiliser la méthode "is_equal_to" de dataExploration
 V_DATE_NULL = "0000-00-00"
 V_DATE_ODD = "1900-01-00"
+V_DTDEM_NO_DEM = "31/12/1900"
 
+
+V_DTNAIS_INCORRECT = ""
 
 # Columns String names
 CS_DTNAIS = "DTNAIS"

@@ -132,3 +132,4 @@ dmypy.json
 *.idea/
 /Rapport/.texpadtmp/
 /Rapport/fig/
+/Rapport/texParts/

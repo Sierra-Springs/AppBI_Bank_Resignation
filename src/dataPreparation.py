@@ -6,7 +6,7 @@ from Utils.names import *
 # print(table1.head())
 # print(table2.head())
 
-def eliminate_odd_subjects():
+def eliminate_odd_subjects(table2):
     idx_to_remove = []
     # for line in range(len(table2)):
     print(table2.index)
@@ -19,77 +19,40 @@ def eliminate_odd_subjects():
     print(new_table2.index)
     return new_table2
 
-def compute_age(ya, yd):
-    # print(ya, yd)
-    year_adh = ya.apply(lambda serie : int(serie.split("/")[2]))
-    print(year_adh)
-    year_dem = yd.apply(lambda serie : (x if x:=int(serie.split("/")[2] == 200)))
-    print(year_dem)
-    if year_dem == 1900:  # Si non démissionnaire
-        year_dem = 2007
-    input()
-    return year_dem - year_adh
+def parse_year_dem(date):
+    value = int(date.split("/")[2])
+    if value == 1900:  # Si non démissionnaire
+        value = 2007
+    return value
 
 
-def add_adh_tab2():
-    sub_tab2 = table2[[CS_DTADH, CS_DTDEM]]
-    durations = []
-    # for line in range(len(sub_tab2)):
-    # for line in table2.index:
-    #     dates = sub_tab2.loc[line].values.tolist()
-    #     year_adh = int(dates[0].split("/")[2])
-    #     year_dem = int(dates[1].split("/")[2])
-    #     if year_dem == 1900:  # Si non démissionnaire
-    #         year_dem = 2007
-    #     durations.append(year_dem - year_adh)
-    # adh_tab2 = pd.Series(durations)
-    # table2[CN_ADH] = adh_tab2
-    table2[CN_ADH] = table2.apply(lambda row : compute_age(table2[CS_DTADH], table2[CS_DTDEM]), axis=1)
+def add_adh_tab2(table2):
+    year_adh = table2[CS_DTADH].apply(lambda serie: int(serie.split("/")[2]))
+    year_dem = table2[CS_DTDEM].apply(lambda serie: parse_year_dem(serie))
+
+    table2[CN_ADH] = year_dem - year_adh
 
 
 
 
 def add_agead_tab2():
-    sub_tab2 = table2[[CS_DTADH, CS_DTNAIS]]
-    durations = []
-    # for line in range(len(sub_tab2)):
-    for line in table2.index:
-        dates = sub_tab2.loc[line].values.tolist()
-        # print(dates)
-        year_adh = int(dates[0].split("/")[2])
-        year_nais = int(dates[1].split("/")[2])
-        durations.append(year_adh - year_nais)
-    nais_tab2 = pd.Series(durations)
-    table2[CN_AGEAD] = nais_tab2
+    year_adh = table2[CS_DTADH].apply(lambda serie: int(serie.split("/")[2]))
+    year_nais = table2[CS_DTNAIS].apply(lambda serie: int(serie.split("/")[2]))
+
+    table2[CN_AGEAD] = year_adh - year_nais
+
     print("==============================================")
     print(table2[[CS_DTNAIS, CS_DTADH, CS_DTDEM, CN_AGEAD, CN_ADH]])
     print("==============================================")
 
 
 def add_isdem():
-    # table1
-    isdem1 = []
-    for line in table1.index:
-        isdem1.append(1)
-    isdem_tab1 = pd.Series(isdem1)
-    table1[CCN_ISDEM] = isdem_tab1
-
-    #table2
-    sub_tab2 = table2[[CS_DTDEM]]
-    isdem2 = []
-    # for line in range(len(sub_tab2)):
-    for line in table2.index:
-        date_dem = sub_tab2.loc[line].values.tolist()
-        year_dem = int(date_dem[0].split("/")[2])
-        if year_dem == 1900:  # Si non démissionnaire
-            isdem2.append(0)
-        else:
-            isdem2.append(1)
-    isdem_tab2 = pd.Series(isdem2)
-    table2[CCN_ISDEM] = isdem_tab2
+    table1[CCN_ISDEM] = 1
+    table2[CCN_ISDEM] = table2[CS_DTDEM].apply(lambda value : 0 if value == V_DTDEM_NO_DEM else 1)
 
 
-def concat_tables():
+
+def concat_tables(table1, table2):
     print("==========================")
     columns = [CCN_CDSEXE, CN_MTREV, CN_NBENF, CCN_CDSITFAM, CCN_CDTMT, CCN_CDCATCL, CN_AGEAD, CN_ADH, CCN_ISDEM]
     new_table1 = table1[columns]
@@ -101,26 +64,41 @@ def concat_tables():
     print(final_table)
 
 
-table1 = pd.read_csv("Data/donnees_banque/table1.csv")
-table2 = pd.read_csv("Data/donnees_banque/table2.csv")
+def data_prepare():
+    table1 = pd.read_csv("Data/donnees_banque/table1.csv")
+    table2 = pd.read_csv("Data/donnees_banque/table2.csv")
 
-print(table2.shape)
-table2 = eliminate_odd_subjects()
-print(table2.shape)
-add_adh_tab2()
-print(table2.shape)
-add_agead_tab2()
-print(table2.shape)
-add_isdem()
-print(table2.shape)
+    table2 = eliminate_odd_subjects(table2)
+    add_adh_tab2(table2)
+    add_agead_tab2(table2)
+    add_isdem(table1, table2)
 
-print(table2.head())
-print(table2)
+    concat_tables(table1, table2)
 
-concat_tables()
 
-## Ordre des opérations
-# - Suppr indivividus avec "0000-00-00"
-# - Calcul durée ADH tab2
-# - Calcul age adhésion tab2
-# - Concat tables sur les attributs communs
+if __name__ == "__main__":
+    # pd.set_option('display.max_rows', None)
+
+    table1 = pd.read_csv("Data/donnees_banque/table1.csv")
+    table2 = pd.read_csv("Data/donnees_banque/table2.csv")
+
+    print(table2.shape)
+    table2 = eliminate_odd_subjects(table2)
+    print(table2.shape)
+    add_adh_tab2()
+    print(table2.shape)
+    add_agead_tab2()
+    print(table2.shape)
+    add_isdem()
+    print(table2.shape)
+
+    print(table2.head())
+    print(table2)
+
+    concat_tables(table1, table2)
+
+    ## Ordre des opérations
+    # - Suppr indivividus avec "0000-00-00"
+    # - Calcul durée ADH tab2
+    # - Calcul age adhésion tab2
+    # - Concat tables sur les attributs communs
