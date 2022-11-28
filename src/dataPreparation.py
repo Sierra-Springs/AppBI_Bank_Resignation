@@ -62,6 +62,7 @@ def concat_tables(table1, table2):
     final_table = pd.concat([new_table1, new_table2], ignore_index=True)
     print(final_table.shape)
     print(final_table)
+    return final_table
 
 
 def data_prepare():
@@ -85,7 +86,7 @@ if __name__ == "__main__":
     print(table2.shape)
     table2 = eliminate_odd_subjects(table2)
     print(table2.shape)
-    add_adh_tab2()
+    add_adh_tab2(table2)
     print(table2.shape)
     add_agead_tab2()
     print(table2.shape)

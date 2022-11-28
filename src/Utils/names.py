@@ -10,36 +10,36 @@ V_DTDEM_NO_DEM = "31/12/1900"
 V_DTNAIS_INCORRECT = ""
 
 # Columns String names
-CS_DTNAIS = "DTNAIS"
-CS_DTADH = "DTADH"
-CS_DTDEM = "DTDEM"
-CS_ANNEEDEM = "ANNEEDEM"
-CS_RANGDEM = "RANGDEM"
+CS_DTNAIS = "DTNAIS"  # Date de naissance
+CS_DTADH = "DTADH"  # Date d’adhésion à l’organisme bancaire
+CS_DTDEM = "DTDEM"  # Date de démission
+CS_ANNEEDEM = "ANNEEDEM"  # Année de démission
+CS_RANGDEM = "RANGDEM"  # Date de la démission au format N AAAA (code puis année)
 
 
 # Columns Categorical String names
 
-CCS_CDMOTDEM = "CDMOTDEM"
+CCS_CDMOTDEM = "CDMOTDEM"  # Motif de la démission (catégorie)
 
 
 # Columns Numeric names
 
-CN_ID = "ID"
+CN_ID = "ID"  # Identifiant unique (dans ce fichier)
 CN_MTREV = "MTREV"  # Montant des revenus
 CN_NBENF = "NBENF"  # Nombre d’enfants
-CN_AGEAD = "AGEAD"
-CN_AGEDEM = "AGEDEM"
-CN_ADH = "ADH"
+CN_AGEAD = "AGEAD"  # Âge du client à l’adhésion, en années
+CN_AGEDEM = "AGEDEM"  # Âge du client à la démission, en années
+CN_ADH = "ADH"  # Durée de la période d’adhésion, en années
 
 
 # Columns Categorical (numerical) names
 
-CCN_CDSEXE = "CDSEXE"
-CCN_CDSITFAM = "CDSITFAM"
-CCN_CDTMT = "CDTMT"
-CCN_CDDEM = "CDDEM"
-CCN_CDCATCL = "CDCATCL"
-CCN_RANGAGEAD = "RANGAGEAD"
-CCN_RANGAGEDEM = "RANGAGEDEM"
-CCN_RANGADH = "RANGADH"
-CCN_ISDEM = "ISDEM"
+CCN_CDSEXE = "CDSEXE"  # Code relatif au sexe {1,2,3,4}
+CCN_CDSITFAM = "CDSITFAM"  # Situation familiale
+CCN_CDTMT = "CDTMT"  # Code représentant le statut du sociétaire (catégorie)
+CCN_CDDEM = "CDDEM"  # Code de démission
+CCN_CDCATCL = "CDCATCL"  # Type de client (catégorie)
+CCN_RANGAGEAD = "RANGAGEAD"  # Tranche d’âge du client à l’adhésion
+CCN_RANGAGEDEM = "RANGAGEDEM"  # Tranche d’âge du client à la démission
+CCN_RANGADH = "RANGADH"  # Tranche de la durée de la période d’adhésion
+CCN_ISDEM = "ISDEM"  # Démissionnaire ou non
