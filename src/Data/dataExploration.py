@@ -95,8 +95,8 @@ def compute_df_covariance(table, tableName):
 
 if __name__ == "__main__":
     pd.set_option('display.max_columns', None)
-    table1 = pd.read_csv("Data/donnees_banque/table1.csv")
-    table2 = pd.read_csv("Data/donnees_banque/table2.csv")
+    table1 = pd.read_csv(table1Path)
+    table2 = pd.read_csv(table2Path)
 
     blueprint("table 1")
     compute_df_covariance(table=table1, tableName="table1")

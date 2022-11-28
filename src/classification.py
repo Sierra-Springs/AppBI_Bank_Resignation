@@ -2,4 +2,7 @@
 # Découper les données en apprentissage = {train, dev}, validation, test
 # Ré-équilibrer les classes (pondération des erreurs ou génération de données)
 
+
+
 if __name__ == '__main__':
+    print("hi")
