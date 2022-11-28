@@ -55,8 +55,8 @@ def concat_tables(tab1, tab2):
 
 
 def data_prepare():
-    tab1 = pd.read_csv("Data/donnees_banque/table1.csv")
-    tab2 = pd.read_csv("Data/donnees_banque/table2.csv")
+    tab1 = pd.read_csv("donnees_banque/table1.csv")
+    tab2 = pd.read_csv("donnees_banque/table2.csv")
 
     tab2 = eliminate_odd_subjects_tab2(tab2)
     add_adh_tab2(tab2)
