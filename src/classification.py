@@ -10,7 +10,11 @@ from pprint import pprint
 from Models.SVM import *
 
 if __name__ == '__main__':
-    svmBase = SVMBaseNoWeights()
+    dataProvider = DataProvider()
+    data = dataProvider.get_data_prepare(.60, .20, .20)
+
+    svmBase = SVMBaseNoWeights(data)
+    svmBase.train()
     metrics = svmBase.evaluate()
 
     pprint(metrics)
