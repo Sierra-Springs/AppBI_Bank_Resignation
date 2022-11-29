@@ -87,4 +87,4 @@ if __name__ == "__main__":
     print(table2.head())
     print(table2)
 
-    concat_tables(table1, table2)
+    print(concat_tables(table1, table2))
