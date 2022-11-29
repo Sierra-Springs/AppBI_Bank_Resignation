@@ -31,6 +31,8 @@ CN_AGEAD = "AGEAD"  # Âge du client à l’adhésion, en années
 CN_AGEDEM = "AGEDEM"  # Âge du client à la démission, en années
 CN_ADH = "ADH"  # Durée de la période d’adhésion, en années
 
+LIST_KEPT_NUM_COLS = [CN_MTREV, CN_NBENF, CN_AGEAD, CN_ADH]
+
 
 # Columns Categorical (numerical) names
 
@@ -43,3 +45,13 @@ CCN_RANGAGEAD = "RANGAGEAD"  # Tranche d’âge du client à l’adhésion
 CCN_RANGAGEDEM = "RANGAGEDEM"  # Tranche d’âge du client à la démission
 CCN_RANGADH = "RANGADH"  # Tranche de la durée de la période d’adhésion
 CCN_ISDEM = "ISDEM"  # Démissionnaire ou non
+
+LIST_KEPT_CAT_COLS = [CCN_CDSEXE, CCN_CDSITFAM, CCN_CDTMT, CCN_CDCATCL]  # CCN_ISDEM ? (label)
+
+
+
+# Keys
+
+TRAIN = "TRAIN"
+VALID = "VALID"
+TEST = "TEST"
