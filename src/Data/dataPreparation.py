@@ -9,6 +9,7 @@
 import pandas as pd
 
 from Utils.names import *
+from Utils.pathsDefinition import *
 
 
 def eliminate_odd_subjects_tab2(tab):
@@ -55,8 +56,8 @@ def concat_tables(tab1, tab2):
 
 
 def data_prepare():
-    tab1 = pd.read_csv("Data/donnees_banque/table1.csv")
-    tab2 = pd.read_csv("Data/donnees_banque/table2.csv")
+    tab1 = pd.read_csv(table1Path)
+    tab2 = pd.read_csv(table2Path)
 
     tab2 = eliminate_odd_subjects_tab2(tab2)
     add_adh_tab2(tab2)
@@ -71,8 +72,8 @@ def data_prepare():
 if __name__ == "__main__":
     # pd.set_option('display.max_rows', None)
 
-    table1 = pd.read_csv("Data/donnees_banque/table1.csv")
-    table2 = pd.read_csv("Data/donnees_banque/table2.csv")
+    table1 = pd.read_csv(table1Path)
+    table2 = pd.read_csv(table2Path)
 
     print(table2.shape)
     table2 = eliminate_odd_subjects_tab2(table2)
