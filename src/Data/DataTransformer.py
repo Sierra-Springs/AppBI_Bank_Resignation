@@ -3,9 +3,9 @@ from Utils.names import *
 
 
 class DataTransformer:
-    def __init__(self):
-        self.fit_on = None
-        self.preprocesseur = None
+    def __init__(self, fit_on, preprocesseur):
+        self.fit_on = fit_on
+        self.preprocesseur = preprocesseur
 
     def return_custom(self, data):
         return data
@@ -17,16 +17,33 @@ class DataTransformer:
         return self.return_custom(data_transformed)
 
 
+class DoNothingTransformer(DataTransformer):
+    class DoNothingPreprocesseur:
+        def fit(self, _):
+            pass
+
+        def transform(self, data):
+            return data
+
+    def __init__(self):
+        fit_on = None
+        preprocesseur = DoNothingTransformer.DoNothingPreprocesseur()
+        super().__init__(fit_on=fit_on, preprocesseur=preprocesseur)
+
+
 class StandardScalerTransformer(DataTransformer):
     def __init__(self):
-        self.fit_on = "all"
-        self.preprocesseur = StandardScaler()
+        fit_on = "all"
+        preprocesseur = StandardScaler()
+        super().__init__(fit_on=fit_on, preprocesseur=preprocesseur)
 
 
 class OneHotEncoderTransformer(DataTransformer):
     def __init__(self):
-        self.fit_on = TRAIN
-        self.preprocesseur = OneHotEncoder()
+        fit_on = TRAIN
+        preprocesseur = OneHotEncoder()
+        super().__init__(fit_on=fit_on, preprocesseur=preprocesseur)
 
     def return_custom(self, data):
         return data.toarray()
+

@@ -88,3 +88,13 @@ class SVMDataProvider(DataProvider):
         for col_name in LIST_KEPT_NUM_COLS:
             transformers[col_name] = StandardScalerTransformer()
         super().__init__(transformers)
+
+
+class NaiveBayesDataProvider(DataProvider):
+    def __init__(self):
+        transformers = dict()
+        for col_name in LIST_KEPT_CAT_COLS:
+            transformers[col_name] = OneHotEncoderTransformer()
+        for col_name in LIST_KEPT_NUM_COLS:
+            transformers[col_name] = StandardScalerTransformer()
+        super().__init__(transformers)
