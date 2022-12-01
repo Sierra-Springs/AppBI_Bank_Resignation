@@ -7,16 +7,14 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 from pprint import pprint
 
-from Data.DataProvider import DataProvider
+from Data.DataProvider import *
 from Models.SVM import *
 
 if __name__ == '__main__':
-    dataProvider = DataProvider()
-    data = dataProvider.get_data_prepare(.60, .20, .20)
+    DataProvider.set_percents(.60, .20, .20)
+    dataProvider = SVMDataProvider()
 
-
-
-    svmBase = SVMBaseNoWeights(data)
+    svmBase = SVMBaseNoWeights(dataProvider)
     svmBase.train()
     metrics = svmBase.evaluate()
 

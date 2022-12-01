@@ -11,12 +11,13 @@ import pickle
 
 
 class Model:
-    def __init__(self, clf, data):
+    def __init__(self, clf, data_provider):
         if isinstance(clf, str):
             self.load_model(clf)
         else:
             self.clf = clf
-        self.data = data
+        self.dataProvider = data_provider
+        self.data = self.dataProvider.get_data_prepare()
 
     def save_model(self):
         model_dir = modelsPaths / self.__class__.__bases__[0].__name__
