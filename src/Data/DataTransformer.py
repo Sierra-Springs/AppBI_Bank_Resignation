@@ -30,3 +30,12 @@ class OneHotEncoderTransformer(DataTransformer):
 
     def return_custom(self, data):
         return data.toarray()
+
+
+class OrdinalEncoderTransformer(DataTransformer):
+    def __init__(self):
+        self.fit_on = TRAIN
+        self.preprocesseur = OneHotEncoder()
+
+    def return_custom(self, data):
+        return data.toarray()
