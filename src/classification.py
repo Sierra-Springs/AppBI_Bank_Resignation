@@ -9,13 +9,14 @@ from pprint import pprint
 
 from Data.DataProvider import *
 from Models.SVM import *
+from Models.NaiveBayes import *
 
 if __name__ == '__main__':
     DataProvider.set_percents(.60, .20, .20)
-    dataProvider = SVMDataProvider()
+    dataProvider = NaiveBayesDataProvider()
 
-    svmBase = SVMBaseNoWeights(dataProvider)
-    svmBase.train()
-    metrics = svmBase.evaluate()
+    model = NaiveBayesBase(dataProvider)
+    model.train()
+    metrics = model.evaluate()
 
     pprint(metrics)

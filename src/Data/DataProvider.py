@@ -66,12 +66,9 @@ class DataProvider:
 
         for data_type in [TRAIN, VALID, TEST]:
             col_transformed = []
-            for col in self.transformers.keys():
-                col_df = DataProvider.splitted_data[data_type][col]
-                col_transformed.append(self.transformers[col].transform(col_df, data_type))
-                col_transformed[-1] = pd.DataFrame(col_transformed[-1],
-                                                   index=col_df.index,
-                                                   columns=[i for i in range(col_transformed[-1].shape[1])])
+            for col_name in self.transformers.keys():
+                col_df = DataProvider.splitted_data[data_type][col_name]
+                col_transformed.append(self.transformers[col_name].transform(col_df, col_name, data_type))
 
             self.data[data_type] = dict()
             self.data[data_type]["X"] = pd.concat(col_transformed, axis=1)
@@ -96,5 +93,5 @@ class NaiveBayesDataProvider(DataProvider):
         for col_name in LIST_KEPT_CAT_COLS:
             transformers[col_name] = OneHotEncoderTransformer()
         for col_name in LIST_KEPT_NUM_COLS:
-            transformers[col_name] = StandardScalerTransformer()
+            transformers[col_name] = KBinsDiscretizerTransformer(n_bins=10, encode='onehot-dense', strategy="uniform")
         super().__init__(transformers)

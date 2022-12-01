@@ -1,49 +1,58 @@
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, KBinsDiscretizer
+import pandas as pd
 from Utils.names import *
 
 
 class DataTransformer:
-    def __init__(self, fit_on, preprocesseur):
+    def __init__(self, fit_on, preprocessor):
         self.fit_on = fit_on
-        self.preprocesseur = preprocesseur
+        self.preprocessor = preprocessor
 
-    def return_custom(self, data):
+    def inprocessing(self, data):
         return data
 
-    def transform(self, data, data_type):
+    def transform(self, data, col_prefix_name, data_type):
         if self.fit_on == "all" or data_type == self.fit_on:
-            self.preprocesseur.fit(data.array.reshape(-1, 1))
-        data_transformed = self.preprocesseur.transform(data.array.reshape(-1, 1))
-        return self.return_custom(data_transformed)
+            self.preprocessor.fit(data.array.reshape(-1, 1))
+        data_transformed = self.preprocessor.transform(data.array.reshape(-1, 1))
+        data_transformed = self.inprocessing(data_transformed)
+        columns = [f"{col_prefix_name}_{i}" for i in range(data_transformed.shape[1])]
+        data_transformed = pd.DataFrame(data_transformed, index=data.index, columns=columns)
+
+        return data_transformed
 
 
 class DoNothingTransformer(DataTransformer):
-    class DoNothingPreprocesseur:
-        def fit(self, _):
-            pass
-
-        def transform(self, data):
-            return data
-
-    def __init__(self):
-        fit_on = None
-        preprocesseur = DoNothingTransformer.DoNothingPreprocesseur()
-        super().__init__(fit_on=fit_on, preprocesseur=preprocesseur)
+    def transform(self, data, col_prefix_name, data_type):
+        return data
 
 
 class StandardScalerTransformer(DataTransformer):
     def __init__(self):
         fit_on = "all"
         preprocesseur = StandardScaler()
-        super().__init__(fit_on=fit_on, preprocesseur=preprocesseur)
+        super().__init__(fit_on=fit_on, preprocessor=preprocesseur)
 
 
 class OneHotEncoderTransformer(DataTransformer):
     def __init__(self):
         fit_on = TRAIN
         preprocesseur = OneHotEncoder()
-        super().__init__(fit_on=fit_on, preprocesseur=preprocesseur)
+        super().__init__(fit_on=fit_on, preprocessor=preprocesseur)
 
-    def return_custom(self, data):
+    def inprocessing(self, data):
         return data.toarray()
 
+
+class KBinsDiscretizerTransformer(DataTransformer):
+    def __init__(self, n_bins, encode, strategy):
+        fit_on = TRAIN
+        preprocessor = KBinsDiscretizer(n_bins=n_bins, encode=encode, strategy=strategy)
+        super().__init__(fit_on=fit_on, preprocessor=preprocessor)
+
+
+if __name__ == '__main__':
+    from Data.dataPreparation import *
+    table = data_prepare()
+    ntct = KBinsDiscretizerTransformer(n_bins=10, encode='ordinal', strategy="uniform")
+    print(ntct.transform(table[CN_AGEAD], CN_AGEAD, "TRAIN"))

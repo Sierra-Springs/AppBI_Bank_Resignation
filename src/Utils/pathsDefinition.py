@@ -8,8 +8,8 @@ textPartsPath = projectPath / "Rapport" / "texParts"
 srcPath = projectPath / "src"
 modelsPaths = srcPath / "Models" / "models"
 
-table1Path = "Data/donnees_banque/table1.csv"
-table2Path = "Data/donnees_banque/table2.csv"
+table1Path = srcPath / "Data" / "donnees_banque" / "table1.csv"
+table2Path = srcPath / "Data" / "donnees_banque" / "table2.csv"
 
 if __name__ == "__main__":
     print(projectPath)
