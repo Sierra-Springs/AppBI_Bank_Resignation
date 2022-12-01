@@ -88,14 +88,3 @@ class SVMDataProvider(DataProvider):
         for col_name in LIST_KEPT_NUM_COLS:
             transformers[col_name] = StandardScalerTransformer()
         super().__init__(transformers)
-
-
-if __name__ == "__main__":
-    print(table1Path)
-    dataProvider = DataProvider()
-    data = dataProvider.get_splitted_data(.30, .30)
-
-    for key in data.keys():
-        blueprint(key)
-        print(data[key])
-        print()
