@@ -7,5 +7,5 @@ class NaiveBayes(Model):
 
 
 class NaiveBayesBase(NaiveBayes):
-    def __init__(self, data):
+    def __init__(self, ):
         super().__init__(CategoricalNB(), data)
