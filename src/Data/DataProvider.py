@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, OrdinalEncoder
 
 
 from Data.dataPreparation import *
@@ -94,4 +94,14 @@ class NaiveBayesDataProvider(DataProvider):
             transformers[col_name] = OneHotEncoderTransformer()
         for col_name in LIST_KEPT_NUM_COLS:
             transformers[col_name] = KBinsDiscretizerTransformer(n_bins=10, encode='onehot-dense', strategy="uniform")
+        super().__init__(transformers)
+
+
+class KNNDataProvider(DataProvider):
+    def __init__(self):
+        transformers = dict()
+        for col_name in LIST_KEPT_CAT_COLS:
+            transformers[col_name] = OrdinalEncoderTransformer()
+        for col_name in LIST_KEPT_NUM_COLS:
+            transformers[col_name] = StandardScalerTransformer()
         super().__init__(transformers)

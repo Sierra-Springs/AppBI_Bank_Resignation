@@ -51,6 +51,15 @@ class KBinsDiscretizerTransformer(DataTransformer):
         super().__init__(fit_on=fit_on, preprocessor=preprocessor)
 
 
+class OrdinalEncoderTransformer(DataTransformer):
+    def __init__(self):
+        self.fit_on = TRAIN
+        self.preprocesseur = OneHotEncoder()
+
+    def return_custom(self, data):
+        return data.toarray()
+
+
 if __name__ == '__main__':
     from Data.dataPreparation import *
     table = data_prepare()
