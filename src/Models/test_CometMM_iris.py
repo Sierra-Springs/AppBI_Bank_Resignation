@@ -1,5 +1,5 @@
 # importing necessary libraries
-from Models.CometModelManager import CometModelManager
+from Models.CometMLManager import CometMLManager
 from sklearn import datasets
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
@@ -42,21 +42,21 @@ if __name__ == '__main__':
 
     # training a DescisionTreeClassifier
     from sklearn.tree import DecisionTreeClassifier
-    model = DecisionTreeClassifier(max_depth = 2)
+    model = DecisionTreeClassifier(max_depth=2)
     model.fit(X_train, y_train)
 
-    cmm = CometModelManager()
+    cmm = CometMLManager()
     print("Enregistrement du modèle en local")
-    model_path = cmm.sklearn_model_to_file(sklearn_model=model, model_name="iris-model") # enregistre le model
+    model_path = cmm.save_model_to_file(model=model, model_name="iris-model") # enregistre le model
     print("chargement du modèle enregistré en local")
-    clf = cmm.file_to_sklear_model(model_name="iris-model") # recharge le model depuis le fichier
+    clf = cmm.load_model_from_file(model_name="iris-model") # recharge le model depuis le fichier
 
 
     print(10 * "_" + "Classifieur originel" + 10 * "_")
     test_classifier(clf)
 
     print()
-    print("modèle original enregistré sous: " + model_path)
+    print(f"modèle original enregistré sous: {model_path}")
     print()
 
     continuer()

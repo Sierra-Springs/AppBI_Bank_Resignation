@@ -10,13 +10,21 @@ from pprint import pprint
 from Data.DataProvider import *
 from Models.SVM import *
 from Models.NaiveBayes import *
+from Models.CometMLManager import CometMLManager
 
 if __name__ == '__main__':
+    cmm = CometMLManager()
+    cmm.start_experiment("ModelsTest")
     DataProvider.set_percents(.60, .20, .20)
+
     dataProvider = NaiveBayesDataProvider()
 
     model = NaiveBayesBase(dataProvider)
     model.train()
+
+    model_path = cmm.save_model_to_file(model=model, model_name="NaiveBayesBase")
+    cmm.log_model(_model_name="NaiveBayesBase")
     metrics = model.evaluate()
+    cmm.log_metrics(metrics)
 
     pprint(metrics)

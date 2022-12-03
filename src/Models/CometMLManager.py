@@ -1,22 +1,26 @@
 import pickle
+import joblib
+import time
+from pathlib import Path
+from collections.abc import MutableMapping
+import os
 
 from comet_ml import Experiment
 from comet_ml import API
-import joblib
-import time
-import os
+
 
 from Utils.logger import StyleLogger
 from LANG.log_string import *
 
 
 
-module_path = os.path.dirname(__file__) + '/'
-default_model_dataBase = os.path.dirname(__file__) + "/models/"
+module_path = Path(os.path.dirname(__file__))
+default_model_dataBase = module_path / "models"
 
 
-class CometModelManager:
-    def __init__(self, workspace="appbi-bank-resignation",
+class CometMLManager:
+    def __init__(self,
+                 workspace="appbi-bank-resignation",
                  project_name="development",
                  model_database=default_model_dataBase):
         os.makedirs(model_database, exist_ok=True)
@@ -31,25 +35,37 @@ class CometModelManager:
             self.API_KEY = None
             self.api = None
             self.logger.log_err(LOG_ENV_VAR_NOT_SET("COMET_API_KEY"))
-            #raise Exception("COMET_API_KEY environment variable must be set")
+            # raise Exception("COMET_API_KEY environment variable must be set")
+        self.experience_name = None
+        self.experiment = None
 
+    def start_experiment(self, experiment_name):
+        self.experience_name = experiment_name
+        self.experiment = Experiment(api_key=self.API_KEY,  # don’t hardcode!!
+                                     project_name=self.project_name,
+                                     workspace=self.workspace,
+                                     )
+        self.experiment.set_name(self.experience_name)
 
-    def get_model_path(self, model_name, extension='.joblib'):
+    def end_experiment(self):
+        self.experiment.end()
+
+    def get_model_path(self, model_name, extension='joblib'):
         """
         retourne le chemin vers le fichier où le model model_name devrait être enregistré
         """
-        return self.model_database + model_name + extension
+        return self.model_database / f"{model_name}.{extension}"
 
-    def sklearn_model_to_file(self, sklearn_model, model_name):
+    def save_model_to_file(self, model, model_name):
         """
         Enregistre le model sklearn sous le nom model_name + ".joblib" dans le dossier self.model_database
         """
         file_path = self.get_model_path(model_name)
-        joblib.dump(sklearn_model, file_path)
+        joblib.dump(model, file_path)
 
         return file_path
 
-    def file_to_sklear_model(self, model_name):
+    def load_model_from_file(self, model_name):
         """
         Retourne le model sklearn enregistré dans le fichier self.model_database + model_name + ".joblib"
         En cas d'échec, tente de charger le modèle enregistré avec l'extension .pkl
@@ -57,50 +73,33 @@ class CometModelManager:
         try:
             return joblib.load(self.get_model_path(model_name))
         except:
-            with open(self.get_model_path(model_name, extension='.pkl'), "rb") as file_handle:
+            with open(self.get_model_path(model_name, extension='pkl'), "rb") as file_handle:
                 return pickle.load(file_handle)
 
-    def log_model(self, _model_name, _experience_name=None, _model_path=None):
+    def log_model(self, _model_name, _model_path=None):
         """
         Enregistre le model dans les expériences Comet_ml
         Lorsque l'on veut garder une trace d'un modèle sans savoir si on le réutilisera vraiment plus tard
         """
-        exp = Experiment(api_key=self.API_KEY,  # don’t hardcode!!
-                         project_name=self.project_name,
-                         workspace=self.workspace,
-                         )
-        exp.set_name(_model_name if _experience_name is None else _experience_name)
+        _model_path = str(self.get_model_path(_model_name)) if _model_path is None else _model_path
+        self.experiment.log_model(name=_model_name, file_or_folder=_model_path)
 
-        _model_path = self.get_model_path(_model_name) if _model_path is None else _model_path
-        exp.log_model(name=_model_name, file_or_folder=_model_path)
-
-    def register_model(self, model_name):
+    def register_model(self, model_name, registry_name=None):
         """
         Enregistre le model dans Model Registry sur Comet ML.
         Pour des modèles "intéresants" dont on se servira plus tard
         """
-        experiment = self.api.get(self.workspace, self.project_name, model_name)
-        print(self.workspace, self.project_name, model_name)
-        print(experiment)
-        experiment.register_model(model_name=model_name, registry_name=model_name)
+        registry_name = model_name if registry_name is None else registry_name
+        self.experiment.register_model(model_name=model_name, registry_name=registry_name)
 
-    def log_and_register_model(self, model_name, experience_name=None, model_path=None, n_attempts=10, sleep_time=0.5):
+    def log_and_register_model(self, model_name, model_path=None):
         """
         Enregistre le model dans les expériences Comet_ml
         puis enregistre le model dans Model Registry sur Comet ML.
         Lorsque l'on est sûr que le modèle est intéressant
         """
         # log the model
-        self.log_model(self, _model_name=model_name, _experience_name=experience_name, _model_path=model_path)
-
-        # give some time to the model to be availaible on Comet_ML
-        experiment = self.api.get(self.workspace, self.project_name, model_name)
-        for i in range(n_attempts):
-            if experiment is None:
-                experiment = self.api.get(self.workspace, self.project_name, model_name)
-            else:
-                continue
-            time.sleep(0.5)
+        self.log_model(model_name=model_name, _model_path=model_path)
 
         # register the model for future use
         self.register_model(model_name)
@@ -120,16 +119,40 @@ class CometModelManager:
                                              expand=True)
         else:
             self.logger.log(LOG_MODEL_ALREADY_DOWNLOADED(model_name))
-        return self.file_to_sklear_model(model_name=model_name)
+        return self.load_model_from_file(model_name=model_name)
 
-    def download_model_from_experiment(self, model_name, force=False):
+    def download_model_from_experiment(self, model_name, experiment_name=None, force=False):
         """
-        Télécharge un modèle depuis les éxpériences sur Comet ML
+        Télécharge un modèle depuis les expériences sur Comet ML
         """
         if force or not os.path.exists(self.get_model_path(model_name)):
-            experiment = self.api.get(self.workspace, self.project_name, model_name)
-            experiment.download_model(model_name, output_path=self.model_database, expand=True)
-        return self.file_to_sklear_model(model_name=model_name)
+            if experiment_name is not None:
+                experiment = self.api.get(self.workspace, self.project_name, experiment_name)
+                experiment.download_model(model_name, output_path=self.model_database, expand=True)
+            else:
+                self.experiment.download_model(model_name, output_path=self.model_database, expand=True)
+
+        return self.load_model_from_file(model_name=model_name)
+
+    def log_metrics(self, metrics, prefix=None, step=None, epoch=None):
+        """
+        Enregistre les metrics dans l'experiment Comet_ml
+        """
+
+        def flatten_dict(d: MutableMapping, parent_key: str = '', sep: str = '.') -> MutableMapping:
+            """source : https://www.freecodecamp.org/news/how-to-flatten-a-dictionary-in-python-in-4-different-ways/"""
+            items = []
+            for k, v in d.items():
+                new_key = parent_key + sep + k if parent_key else k
+                if isinstance(v, MutableMapping):
+                    items.extend(flatten_dict(v, new_key, sep=sep).items())
+                else:
+                    items.append((new_key, v))
+            return dict(items)
+
+        flatten_metrics = flatten_dict(metrics)
+
+        self.experiment.log_metrics(flatten_metrics, prefix=prefix, step=step, epoch=epoch)
 
 
 if __name__ == "__main__":
@@ -137,7 +160,7 @@ if __name__ == "__main__":
         API_KEY = os.environ["COMET_API_KEY"]
         print(API_KEY)
 
-    cmm = CometModelManager(project_name='milestone-3')
+    cmm = CometMLManager(project_name='milestone-3')
     #cmm.register_model("log-reg-distance-angle")
     #cmm.log_model("MLPClassifier")
 
