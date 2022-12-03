@@ -4,6 +4,7 @@ import time
 from pathlib import Path
 from collections.abc import MutableMapping
 import os
+import numpy as np
 
 from comet_ml import Experiment
 from comet_ml import API
@@ -171,7 +172,10 @@ class CometMLManager:
                 if isinstance(v, MutableMapping):
                     items.extend(flatten_dict(v, new_key, sep=sep).items())
                 else:
-                    items.append((new_key, v))
+                    if isinstance(v, np.ndarray):
+                        items.append((new_key, v.tolist()))
+                    else:
+                        items.append((new_key, v))
             return dict(items)
 
         flatten_metrics = flatten_dict(metrics)
@@ -185,13 +189,13 @@ if __name__ == "__main__":
         print(API_KEY)
 
     cmm = CometMLManager(project_name='milestone-3')
-    #cmm.register_model("log-reg-distance-angle")
-    #cmm.log_model("MLPClassifier")
+    #cometMLManager.register_model("log-reg-distance-angle")
+    #cometMLManager.log_model("MLPClassifier")
 
-    #cmm.log_model("mlp-classifier")
-    #cmm.register_model("mlp-classifier")
+    #cometMLManager.log_model("mlp-classifier")
+    #cometMLManager.register_model("mlp-classifier")
     #print(type(model))
-    #cmm.sklearn_model_to_file(model, model_name="log-reg-distance-angle")
+    #cometMLManager.sklearn_model_to_file(model, model_name="log-reg-distance-angle")
 
     model = cmm.download_model("mlp-classifier")
     print(type(model))

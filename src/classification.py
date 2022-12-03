@@ -6,58 +6,45 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 from pprint import pprint
+from datetime import datetime
 
 from Data.DataProvider import *
 from Models.SVM import *
 from Models.KNN import *
 from Models.NaiveBayes import *
+from Models.MLP import *
 from Models.CometMLManager import CometMLManager
 
 if __name__ == '__main__':
-    cmm = CometMLManager()
-    cmm.start_experiment("ModelsTest")
+    date_now_str = datetime.now().strftime("%d/%m/%Y %H:%M:%S").replace(" ", "_")
+
+    cometMLManager = CometMLManager()  # Gestionnaire d'expérience et de modèles
+    cometMLManager.start_experiment(f"ModelsTest_{date_now_str}")  # Nouvelle expérience
     DataProvider.set_percents(.60, .20, .20)
 
+    # liste des modèles à tester
+    models = [SVMBaseAutoWeights(SVMDataProvider()),
+              KNNBaseDistanceWeights(KNNDataProvider()),
+              NaiveBayesBase(NaiveBayesDataProvider()),
+              MLPBase(SVMDataProvider())]
 
+    models = [MLPBase(SVMDataProvider())]
 
+    all_metrics = dict()  # Métriques de tous les modèles
+    for model in models:
+        magentaprint("_" * 30)
+        magentaprint(f"Model : {model.name}")
+        model.train()
+        metrics = model.evaluate()
 
+        # Enregistrement du modèle complet dans un fichier
+        model_path = cometMLManager.save_model_to_file(model=model, model_name="NaiveBayesBase")
+        # Enregistrement du modèle (du fichier) vers l'expérience CometML
+        cometMLManager.log_model(_model_name="NaiveBayesBase")
 
+        pprint(metrics)
 
-    dataProvider = SVMDataProvider()
+        all_metrics[model.name] = metrics
 
-    # svmBase = SVMBaseNoWeights(dataProvider)
-    svmBase = SVMBaseAutoWeights(dataProvider)
-    svmBase.train()
-    metrics = svmBase.evaluate()
-
-    pprint(metrics)
-
-    magentaprint("-" * 30)
-
-    dataProvider = KNNDataProvider()
-
-    # knnBase = KNNBaseUniformWeights(dataProvider)
-    knnBase = KNNBaseDistanceWeights(dataProvider)
-    knnBase.train()
-    metrics = knnBase.evaluate()
-
-    pprint(metrics)
-
-    magentaprint("-" * 30)
-
-
-
-
-
-
-    dataProvider = NaiveBayesDataProvider()
-
-    model = NaiveBayesBase(dataProvider)
-    model.train()
-
-    model_path = cmm.save_model_to_file(model=model, model_name="NaiveBayesBase")
-    cmm.log_model(_model_name="NaiveBayesBase")
-    metrics = model.evaluate()
-    cmm.log_metrics(metrics)
-
-    pprint(metrics)
+    # log des metriques sur CometML
+    cometMLManager.log_metrics(all_metrics)
