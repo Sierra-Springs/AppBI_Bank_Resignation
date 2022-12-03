@@ -40,6 +40,9 @@ class CometMLManager:
         self.experiment = None
 
     def start_experiment(self, experiment_name):
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         self.experience_name = experiment_name
         self.experiment = Experiment(api_key=self.API_KEY,  # don’t hardcode!!
                                      project_name=self.project_name,
@@ -48,6 +51,9 @@ class CometMLManager:
         self.experiment.set_name(self.experience_name)
 
     def end_experiment(self):
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         self.experiment.end()
 
     def get_model_path(self, model_name, extension='joblib'):
@@ -81,6 +87,9 @@ class CometMLManager:
         Enregistre le model dans les expériences Comet_ml
         Lorsque l'on veut garder une trace d'un modèle sans savoir si on le réutilisera vraiment plus tard
         """
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         _model_path = str(self.get_model_path(_model_name)) if _model_path is None else _model_path
         self.experiment.log_model(name=_model_name, file_or_folder=_model_path)
 
@@ -89,6 +98,9 @@ class CometMLManager:
         Enregistre le model dans Model Registry sur Comet ML.
         Pour des modèles "intéresants" dont on se servira plus tard
         """
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         registry_name = model_name if registry_name is None else registry_name
         self.experiment.register_model(model_name=model_name, registry_name=registry_name)
 
@@ -98,6 +110,9 @@ class CometMLManager:
         puis enregistre le model dans Model Registry sur Comet ML.
         Lorsque l'on est sûr que le modèle est intéressant
         """
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         # log the model
         self.log_model(model_name=model_name, _model_path=model_path)
 
@@ -108,6 +123,9 @@ class CometMLManager:
         """
         Télécharge un modèle de Model Registry sur Comet ML
         """
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         if force or not (os.path.exists(self.get_model_path(model_name)) or os.path.exists(self.get_model_path(model_name, extension=".pkl"))):
             if force:
                 self.logger.log(LOG_ATTEMPT_TO_FORCE_DOWNLOAD_MODEL(model_name))
@@ -125,6 +143,9 @@ class CometMLManager:
         """
         Télécharge un modèle depuis les expériences sur Comet ML
         """
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
         if force or not os.path.exists(self.get_model_path(model_name)):
             if experiment_name is not None:
                 experiment = self.api.get(self.workspace, self.project_name, experiment_name)
@@ -138,6 +159,9 @@ class CometMLManager:
         """
         Enregistre les metrics dans l'experiment Comet_ml
         """
+        if self.API_KEY is None:
+            self.logger.log_warn(LOG_IGNORE_API_KEY_NOT_SET())
+            return
 
         def flatten_dict(d: MutableMapping, parent_key: str = '', sep: str = '.') -> MutableMapping:
             """source : https://www.freecodecamp.org/news/how-to-flatten-a-dictionary-in-python-in-4-different-ways/"""

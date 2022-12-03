@@ -1,4 +1,5 @@
-STRINGS_LOG = {'LOG_MISSING_KEY': "({0}) key is missing in request",
+STRINGS_LOG = {'LOG_IGNORE_API_KEY_NOT_SET': "Ignoring command as the API_KEY is not set",
+               'LOG_MISSING_KEY': "({0}) key is missing in request",
                'LOG_ENV_VAR_NOT_SET': "the {0} environment variable is not set",
                'LOG_LOGGER_INITIALIZED': "logger initialized",
                'LOG_SENDING_LOGS_TO_CLIENT': "sending logs to client",

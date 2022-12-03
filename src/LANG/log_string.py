@@ -32,6 +32,10 @@ def construct_string(*kwargs):
         return STRING_LOG_ROLLBACK[inspect.stack()[1][3]].format(*kwargs)
 
 
+def LOG_IGNORE_API_KEY_NOT_SET():
+    return construct_string()
+
+
 def LOG_MISSING_KEY(key_Name):
     return construct_string(key_Name)
 
