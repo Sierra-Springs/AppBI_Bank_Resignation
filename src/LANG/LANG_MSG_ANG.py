@@ -1,0 +1,31 @@
+STRINGS_MSG = {'MSG_MISSING_KEY': "the ({0}) key should be specified for request /{1}. eg : {{'{0}': {2}}}",
+               'MSG_MODEL_LOADED_SUCCESSFULLY': "The ({0}) model has been successfully loaded",
+               'MSG_MODEL_LOAD_ERROR': "the ({0}) model couldn't have been loaded",
+               'MSG_PREDICTION_ATTEMPT_ON_NONE_MODEL': "No model has been loaded to make a prediction",
+               'MSG_LOG_LANG_CHANGED_SUCCESSFULLY': "The logs language has been successfully set to {0}",
+               'MSG_LOG_LANG_CHANGE_ERROR': "The logs language couldn't have been set to {0}",
+               'MSG_MSG_LANG_CHANGED_SUCCESSFULLY': "The messages language has been successfully set to {0}",
+               'MSG_MSG_LANG_CHANGE_ERROR': "The messages language couldn't have been set to {0}",
+               'MSG_MSG_LOCAL_LANG_CHANGE_ERROR': "The client local language couldn't have been set to {0}",
+               'MSG_NO_NEW_DATA_AVAILABLE': "No new data since the last prediction",
+               'MSG_NEW_DATA_DOWNLOADED': "New data since {0} successfully downloaded",
+               'MSG_PREDICTION_RECEIVED': "Predictions successfully received !",
+               'MSG_PREDICTION_IMPOSSIBLE': "The {0} model have been unable to make a prediction with the given values",
+               'MSG_GAME_TIME_RESET': 'Last game time reset to "forever"',
+               'MSG_NO_NEW_PREDICTION': 'No new data implies no new prediction',
+               'MSG_LAST_GAME_TIME_IS': 'the last game time is : {0}',
+               'MSG_WAIT_FOR_THE_DOWNLOAD': 'please WAIT (up to {0}) for the download to complete',
+               'W_MODEL_IS': "Model:",
+               'W_WORKSPACE_IS': "Workspace:",
+               'W_VALUES_ARE': 'Values:',
+               'W_CLICK_ME': "Click me",
+               'W_LANG': "Language:",
+               'W_DOWNLOAD_MODEL': 'Download Model',
+               'W_PREDICT': 'Predict',
+               'W_LOAD_DATA': 'Load data',
+               'W_RESET': 'Reset',
+               'W_CHANGE_LANG': "Change language"
+               }
+
+
+# gametime
