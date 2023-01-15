@@ -17,8 +17,6 @@ from Models.CometMLManager import CometMLManager
 
 if __name__ == '__main__':
     date_now_str = datetime.now().strftime("%d/%m/%Y_%H:%M:%S")  # Do not put any space in the format, here
-    print(date_now_str)
-    input()
 
     cometMLManager = CometMLManager()  # Gestionnaire d'expérience et de modèles
     cometMLManager.start_experiment(f"ModelsTest_{date_now_str}")  # Nouvelle expérience
@@ -30,7 +28,7 @@ if __name__ == '__main__':
               NaiveBayesBase(MartineDataProvider()),
               MLPBase(AlphonseDataProvider())]
 
-    models = [MLPBase(AlphonseDataProvider())]
+    #models = [MLPBase(AlphonseDataProvider())]
 
     all_metrics = dict()  # Métriques de tous les modèles
     for model in models:

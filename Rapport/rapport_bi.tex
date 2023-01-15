@@ -11,21 +11,22 @@
 
 \usepackage{booktabs}  % Pour \{top/mid/bottom}rule générés par pandas (python)
 
+
 \newcommand{\figureDistribution}[1]{
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.49\textwidth}
         \includegraphics[width=\textwidth,]{fig/prepared_data/numeric_distribution/distplot/distplot__#1_distribution_in_prepared_data.png}
         \caption{Densité [#1]}
-        \label{fig:#1_density}
+        \label{fig:#1-density}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.49\textwidth}
         \includegraphics[width=\textwidth]{fig/prepared_data/numeric_distribution/boxplot/boxplot__#1_distribution_in_prepared_data.png}
         \caption{Diagramme moustache [#1]}
-        \label{fig:#1_boxplot}
+        \label{fig:#1-boxplot}
     \end{subfigure}
-    \label{fig:#1_distribution}
+    \label{fig:#1-distribution}
 \end{figure}
 }
 
@@ -34,8 +35,7 @@
 	\centering
 	\rowcolors{1}{fgVeryLightRed}{}
 	\input{texParts/prepared_data/description/#1_description.tex}
-	\caption[Exemple de table hétérogène]{Exemple de table contenant du texte, des valeurs entières, réelles et des formules mathématiques.}
-	\label{tab:exemple}
+	\label{tab:#1-table}
 \end{table}
 }
 
@@ -104,22 +104,22 @@
 
 %\input{texParts/tables/table2_corr}
 
-Si vous utilisez \LaTeX{} pour écrire votre rapport, veuillez consulter le tutoriel fourni à l'adresse suivante : \url{https://www.overleaf.com/latex/templates/modele-rapport-uapv/pdbgdpzsgwrt}. Attention, il vous faut accéder au \textit{code source} pour bénéficier des commentaires qu'il contient, et qui complètent le texte apparaissant dans le PDF produit.
+% Si vous utilisez \LaTeX{} pour écrire votre rapport, veuillez consulter le tutoriel fourni à l'adresse suivante : \url{https://www.overleaf.com/latex/templates/modele-rapport-uapv/pdbgdpzsgwrt}. Attention, il vous faut accéder au \textit{code source} pour bénéficier des commentaires qu'il contient, et qui complètent le texte apparaissant dans le PDF produit.
 
-Le reste du document présent décrit la structure imposée pour votre rapport. Vous devez obligatoirement la suivre, en respectant les titres et la numérotation indiquée. Les listes de points à l'intérieur des sections sont là pour décrire le contenu que vous devez produire. \textbf{Ne reprenez pas ces points \textit{verbatim} : il s'agit simplement d'indications.}
+% Le reste du document présent décrit la structure imposée pour votre rapport. Vous devez obligatoirement la suivre, en respectant les titres et la numérotation indiquée. Les listes de points à l'intérieur des sections sont là pour décrire le contenu que vous devez produire. \textbf{Ne reprenez pas ces points \textit{verbatim} : il s'agit simplement d'indications.}
 
-\begin{beware}[Remarque]
-Si vous faites une copie de ce document, configurez Overleaf pour qu'il le compile avec \href{https://fr.wikipedia.org/wiki/LuaTeX}{LuaLaTeX}. De plus, vérifiez que le correcteur orthographique sélectionné est bien celui destiné au français.
-\end{beware}
+% \begin{beware}[Remarque]
+% Si vous faites une copie de ce document, configurez Overleaf pour qu'il le compile avec \href{https://fr.wikipedia.org/wiki/LuaTeX}{LuaLaTeX}. De plus, vérifiez que le correcteur orthographique sélectionné est bien celui destiné au français.
+% \end{beware}
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Contexte}
-\begin{itemize}
-	\item Rappelez brièvement le contexte du projet et ses objectifs.
-\end{itemize}
+% \begin{itemize}
+% 	\item Rappelez brièvement le contexte du projet et ses objectifs.
+% \end{itemize}
 
 Un organisme bancaire a fait appel à nous pour mettre en place une solution de Machine Learning afin de détecter ses clients sociétaires qui sont sur le point de le quitter. Le but principal pour la banque est d'adapter sa relation client auprès de ceux identifiés comme démissionnaire afin de les convaincre de rester.\\
 
@@ -129,12 +129,12 @@ Par ailleurs, l'explicabilité du modèle est également un point important pour
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Organisation}
-\begin{itemize}
-	\item Décrivez la composition du groupe, la répartition du travail.
-	\item Indiquez comment votre travail a été organisé dans le temps.
-	\item Indiquez aussi comment les tâches ont été distribuées entre les membres du groupe (qui a fait quoi ?). Il s'agit de décrire les tâches \textbf{individuelles}, donc vous devez les décomposer à un niveau suffisamment détaillé pour permettre de décrire ce que chaque membre du groupe a fait.
-	\item Indiquez quelles bibliothèques vous avez utilisées, en expliquant leur rôle. S'il s'agit de bibliothèques différentes de celles utilisées en TP, \textbf{expliquez} la raison de votre choix.
-\end{itemize}
+% \begin{itemize}
+% 	\item Décrivez la composition du groupe, la répartition du travail.
+% 	\item Indiquez comment votre travail a été organisé dans le temps.
+% 	\item Indiquez aussi comment les tâches ont été distribuées entre les membres du groupe (qui a fait quoi ?). Il s'agit de décrire les tâches \textbf{individuelles}, donc vous devez les décomposer à un niveau suffisamment détaillé pour permettre de décrire ce que chaque membre du groupe a fait.
+% 	\item Indiquez quelles bibliothèques vous avez utilisées, en expliquant leur rôle. S'il s'agit de bibliothèques différentes de celles utilisées en TP, \textbf{expliquez} la raison de votre choix.
+% \end{itemize}
 
 
 
@@ -160,16 +160,125 @@ Par ailleurs, l'explicabilité du modèle est également un point important pour
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Caractéristiques}
+% \begin{itemize}
+% 	\item Décrivez les données et l'exploration que vous en avez faite.
+% 	\item Soyez exhaustifs : fichiers de données, liste des attributs, nature et codage des valeurs, interprétation, unité dans laquelle la variable est exprimée (pour les variables numériques), etc.
+% \end{itemize}
+
+% Bon commençons à travailler, car c'est important le travail :)
+
+Nous avons accès à des données extraites en 2007 décrivant les sociétaires de l'organisme. Il s'agit de deux fichiers de données tabulaires : \texttt{table1.csv} et \texttt{table2.csv}.
 \begin{itemize}
-	\item Décrivez les données et l'exploration que vous en avez faite.
-	\item Soyez exhaustifs : fichiers de données, liste des attributs, nature et codage des valeurs, interprétation, unité dans laquelle la variable est exprimée (pour les variables numériques), etc.
+    \item \texttt{table1.csv} contient les 30 332 \textit{démissionnaires} de l’organisme, pour la période
+allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant quitté l'organisme. Ses attributs sont décrits dans la Table~\ref{tab:attrCSV1}.
+    \item \texttt{table2.csv} contient un échantillon aléatoire de 15 022 sociétaires, incluant des démissionnaires et des sociétaires actuels (pour des raisons de simplicité, nous considérerons comme "actuels" les sociétaires étant toujours clients de l'organisme au moment de l'extraction). Ses attributs sont décrits dans la Table~\ref{tab:attrCSV2}.
 \end{itemize}
 
-Bon commençons à travailler, car c'est important le travail :)
+\begin{table}[htb!]
+	% \centering
+	\rowcolors{1}{fgVeryLightRed}{}
+	\begin{tabular}{l l l}
+		\hline
+		% \rowcolor{fgLightRed} 
+		\textbf{Variable} & \textbf{Type} & \textbf{Nature}	\\ 
+		\hline
+             ID & Quantitative discret & int \\
+             CDSEXE & Qualitative nominale & int \\
+             MTREV & Quantitative discret & int \\
+             NBENF & Quantitative discret & int \\
+             CDSITFAM & Qualitative nominale & char \\
+             DTADH & Quantitative discret & date \\
+             CDTMT & Qualitative nominale & int \\
+             CDDEM & Qualitative nominale & int \\
+             DTDEM & Quantitative discret & date \\
+             ANNEEDEM & Quantitative discret & int \\
+             CDMOTDEM & Qualitative nominale & string \\
+             CDCATCL & Qualitative nominale & int \\
+             AGEAD & Quantitative discret & int \\
+             RANGAGEAD & Qualitative ordinale & string \\
+             AGEDEM & Quantitative discret & int \\
+             RANGAGEDEM & Qualitative ordinale & string \\
+             RANGDEM & Qualitative ordinale & string \\
+             ADH & Quantitative discret & int \\
+             RANGADH & Qualitative ordinale & string \\
+		\hline
+	\end{tabular} \\
+ \rowcolors{1}{fgVeryLightRed}{}
+        \begin{tabular}{l l}
+		\hline
+		% \rowcolor{fgLightRed} 
+		\textbf{Variable} & \textbf{Description} \\ 
+		\hline
+             ID & Identifiant unique (dans ce fichier) \\
+             CDSEXE & Code relatif au sexe \\
+             MTREV & Montant des revenus \\
+             NBENF & Nombre d’enfants \\
+             CDSITFAM & Situation familiale \\
+             DTADH & Date d’adhésion à l’organisme bancaire \\
+             CDTMT & Code représentant le statut du sociétaire (catégorie) \\
+             CDDEM & Code de démission \\
+             DTDEM & Date de démission \\
+             ANNEEDEM & Année de démission \\
+             CDMOTDEM & Motif de la démission (catégorie) \\
+             CDCATCL & Type de client (catégorie) \\
+             AGEAD & Âge du client à l’adhésion, en années \\
+             RANGAGEAD & Tranche d’âge du client à l’adhésion \\
+             AGEDEM & Âge du client à la démission, en années \\
+             RANGAGEDEM & Tranche d’âge du client à la démission \\
+             RANGDEM & Date de la démission au format N AAAA (code puis année) \\
+             ADH & Durée de la période d’adhésion, en années \\
+             RANGADH & Tranche de la durée de la période d’adhésion \\
+		\hline
+	\end{tabular}
+	\caption[]{Attributs présents dans le fichier \texttt{table1.csv}}
+	\label{tab:attrCSV1}
+\end{table}
 
-Nous avons accès à des données extraites en 2007 décrivant les sociétaires de l'organisme
-
-
+\begin{table}[htb!]
+	% \centering
+	\rowcolors{1}{fgVeryLightRed}{}
+	\begin{tabular}{l l l}
+		\hline
+		% \rowcolor{fgLightRed} 
+		\textbf{Variable} & \textbf{Type} & \textbf{Nature}	\\ 
+		\hline
+             ID & Quantitative discret & int \\
+             CDSEXE & Qualitative nominale & int \\
+             DTNAIS & Quantitative discret & date \\
+             MTREV & Quantitative discret & int \\
+             NBENF & Quantitative discret & int \\
+             CDSITFAM & Qualitative nominale & char \\
+             DTADH & Quantitative discret & date \\
+             CDTMT & Qualitative nominale & int \\
+             CDMOTDEM & Qualitative nominale & string \\
+             CDCATCL & Qualitative nominale & int \\
+             BPADH & Quantitative discret & int \\
+             DTDEM & Quantitative discret & date \\
+		\hline
+	\end{tabular} \\
+ \rowcolors{1}{fgVeryLightRed}{}
+        \begin{tabular}{l l}
+		\hline
+		% \rowcolor{fgLightRed} 
+		\textbf{Variable} & \textbf{Description} \\ 
+		\hline
+             ID & Identifiant unique (dans ce fichier) \\
+             CDSEXE & Code relatif au sexe \\
+             DTNAIS & Date de naissance \\
+             MTREV & Montant des revenus \\
+             NBENF & Nombre d’enfants \\
+             CDSITFAM & Situation familiale \\
+             DTADH & Date d’adhésion à l’organisme bancaire \\
+             CDTMT & Code représentant le statut du sociétaire (catégorie) \\
+             CDMOTDEM & Motif de la démission (catégorie) \\
+             CDCATCL & Type de client (catégorie) \\
+             BPADH & Signification inconnue \\
+             DTDEM & Date de démission \\
+		\hline
+	\end{tabular}
+	\caption[]{Attributs présents dans le fichier \texttt{table2.csv}}
+	\label{tab:attrCSV2}
+\end{table}
 
 
 
@@ -177,11 +286,30 @@ Nous avons accès à des données extraites en 2007 décrivant les sociétaires 
 %\subsection{Nettoyage et fusion}
 \subsection{Nettoyage}
 \label{sec:Nettoyage}
+% \begin{itemize}
+% 	\item Listes les types d'erreurs ou d'incohérences que vous avez rencontrées dans les données.
+% 	\item Expliquez comment vous les avez corrigées, ou plus généralement, comment vous avez résolu ces problèmes. Vous pouvez envisager plusieurs méthodes pour traiter ces problèmes, afin de les comparer plus tard à travers les résultats obtenus.
+% % 	\item Discutez la fusion des tables : l'avez-vous jugée nécessaire ? Et si oui comment avez-vous procédé ?
+% \end{itemize}
+
+Rappelons que notre objectif est de pouvoir identifier les sociétaires démissionnaires, afin de pouvoir détecter des profils démissionnaires parmi les sociétaires actuels. Il nous faut donc le plus de données possibles combinant sociétaires actuels et démissionnaires et il est ainsi impensable de se contenter uniquement des données contenues dans \texttt{table2.csv}. Nous devons donc fusionner les deux tables mais cela implique des incompatibilités au niveau des attributs.
+
+Afin de réaliser cette fusion, nous avons :
 \begin{itemize}
-	\item Listes les types d'erreurs ou d'incohérences que vous avez rencontrées dans les données.
-	\item Expliquez comment vous les avez corrigées, ou plus généralement, comment vous avez résolu ces problèmes. Vous pouvez envisager plusieurs méthodes pour traiter ces problèmes, afin de les comparer plus tard à travers les résultats obtenus.
-% 	\item Discutez la fusion des tables : l'avez-vous jugée nécessaire ? Et si oui comment avez-vous procédé ?
+    \item Éliminé les attributs liés à la démission. En effet, le but étant de déterminer si un sociétaire est démissionnaire ou non, tout attribut en lien avec la démission n'a pas lieu d'être car permettrait une identification bien trop évidente.
+    \item Utilisé les attributs dont les valeurs sont des dates pour en déduire des durées. Une date étant de nature complexe, les algorithmes ne peuvent pas les utiliser. Ainsi, afin de conserver un maximum d'information et d'homogénéiser les tables nous avons réalisé les traitements suivants :
+    \begin{itemize}
+        \item Calcul de la durée d'adhésion avec les attributs \texttt{DTADH} et \texttt{DTDEM} de \texttt{table2.csv}, équivalent à l'attribut \texttt{ADH} de \texttt{table1.csv}. Plus précisément, le calcul est effectué entre \texttt{DTADH} et \texttt{DTDEM} si le sociétaire est démissionnaire, sinon entre \texttt{DTADH} et 2007 (date de l'extraction des données).
+        \item Calcul de l'âge à l'adhésion avec les attributs \texttt{DTNAIS} et \texttt{DTADH} de \texttt{table2.csv}, équivalent à l'attribut \texttt{AGEAD} de \texttt{table1.csv}. Avec suppression au préalable des individus dans \texttt{table2.csv} dont l'attribut \texttt{DTNAIS} a pour valeur "000-00-00". En effet sans la date de naissance il nous était impossible de connaître l'âge à l'adhésion, et nous avons préféré supprimer ces individus car certains algorithme ne supportent pas les valeurs manquantes.
+    \end{itemize}
+    Après ces calculs nous avons supprimés les attributs ayant une date pour valeur. Aussi, afin d'harmoniser les attributs des deux tables, nous avons créer les attributs \texttt{ADH} et \texttt{AGEAD} dans la table issue de \texttt{table2.csv}.
+    \item Éliminé les attributs ID des deux tables.
+    \item Éliminé les attributs représentant des intervalles. Ces attributs étant soit liés à la démission, soit à la période d'adhésion ou à l'âge d'adhésion que nous avons calculé, nous avons décidé qu'ils ne nous seraient pas utiles.
+    \item Éliminé l'attribut \texttt{BPADH} car nous ne connaissons pas sa signification et ne savons pas si la valeur "0" correspond à un manque d'information ou non.
+    \item Rajouté l'attribut \texttt{ISDEM} aux deux tables en tant que label. "1" signifie que l'individu est démissionnaire, "0" sinon.
 \end{itemize}
+
+
 
 
 
@@ -189,53 +317,66 @@ Nous avons accès à des données extraites en 2007 décrivant les sociétaires 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analyse descriptive}
 \label{sec:AnalyseDesc}
-\begin{itemize}
-	\item Donnez les résultats de votre analyse descriptive des données nettoyées. Si vous envisagez plusieurs méthodes de nettoyage, concentrez-vous ici sur celle qui aboutit ensuite aux meilleurs résultats en Section~\ref{sec:Resultats}.
-	\item Considérez \textbf{chaque attribut} séparément : distribution, principales statistiques, et discussion. Si plusieurs attributs présentent les mêmes caractéristiques, vous pouvez les présenter de façon groupée.
-	\item Étudiez également les associations entre \textbf{paires} d'attributs (y compris la classe à prédire), en procédant là encore visuellement (via des graphiques) et objectivement (via des statistiques). Discutez.
-\end{itemize}
+% \begin{itemize}
+% 	\item Donnez les résultats de votre analyse descriptive des données nettoyées. Si vous envisagez plusieurs méthodes de nettoyage, concentrez-vous ici sur celle qui aboutit ensuite aux meilleurs résultats en Section~\ref{sec:Resultats}.
+% 	\item Considérez \textbf{chaque attribut} séparément : distribution, principales statistiques, et discussion. Si plusieurs attributs présentent les mêmes caractéristiques, vous pouvez les présenter de façon groupée.
+% 	\item Étudiez également les associations entre \textbf{paires} d'attributs (y compris la classe à prédire), en procédant là encore visuellement (via des graphiques) et objectivement (via des statistiques). Discutez.
+% \end{itemize}
 
-\begin{beware}[Remarque]
-en pratique, vous devez faire une première analyse descriptive \textit{avant} le nettoyage, pour détecter les problèmes dans les données ; puis une seconde analyse descriptive \textit{après} le nettoyage, pour étudier les propriétés des données propres. Pour éviter les redondances, on ne vous demande pas de décrire les deux dans ce rapport.
+% \begin{beware}[Remarque]
+% en pratique, vous devez faire une première analyse descriptive \textit{avant} le nettoyage, pour détecter les problèmes dans les données ; puis une seconde analyse descriptive \textit{après} le nettoyage, pour étudier les propriétés des données propres. Pour éviter les redondances, on ne vous demande pas de décrire les deux dans ce rapport.
 
-En Section~\ref{sec:Nettoyage}, vous devez uniquement vous concentrer sur les problèmes détectés dans les données et comment vous les résolvez, sans donner l'analyse descriptive exhaustive.
+% En Section~\ref{sec:Nettoyage}, vous devez uniquement vous concentrer sur les problèmes détectés dans les données et comment vous les résolvez, sans donner l'analyse descriptive exhaustive.
 
-En Section~\ref{sec:AnalyseDesc}, vous devez décrire votre analyse descriptive complète des données nettoyées.
-\end{beware}
+% En Section~\ref{sec:AnalyseDesc}, vous devez décrire votre analyse descriptive complète des données nettoyées.
+% \end{beware}
 
 \subsubsection{Analyse par attribut}
-Une fois nos données nettoyées, voici les profils pour chaque attribut :\\
+Une fois nos données nettoyées, nous avons analysé celles-ci pour étudier la distribution des différents attributs. Notons que  voici les profils pour chaque attribut :\\
 
 
 \textbf{ADH} - Durée de la période d’adhésion, en années
 \figureDistribution{ADH}
 \inputDescription{ADH}
-On peut observer deux profils de sociétaires : ceux qui restent entre 0 et 13 ans et ceux qui restent entre 10 et 30 ans voire plus.
-Notons que les deux groupes sont assez bien réparti puisque la moyenne est à 12.57, c'est à dire à la frontière des deux groupes.\\
+Dans la figure ~\ref{fig:ADH-distribution}, on peut observer deux profils de sociétaires : ceux qui restent entre 0 et 13 ans et ceux qui restent entre 10 et 30 ans voire plus.
+Notons que les deux groupes sont assez bien réparti puisque la moyenne est à 12.57, c'est à dire à la frontière des deux groupes. (voir ~\ref{tab:ADH-table})\\
 
 
 \textbf{AGEAD} - Âge du client à l’adhésion, en années
 \figureDistribution{AGEAD}
 \inputDescription{AGEAD}
-Nous observons qu'il y a très peu d'adhésion entre 0 et 20 ans. On peut imaginer qu'à de bas âges, ce sont surtout les parents qui ouvrent un compte à leurs enfants. Le nombre de sociétaire diminue pour un age d'adhésion allant d'environ 25 ans jusqu'à 80 ans voire plus, avec un maximum de 90 ans.
-notons que 75\% des sociétaire ont 46 ans ou moins et que la moyenne d'age à l'adhésion est de 37.45 ans.
+Nous observons qu'il y a très peu d'adhésion entre 0 et 20 ans comme le montre la figure ~\ref{fig:AGEAD-distribution}. On peut imaginer qu'à de bas âges, ce sont surtout les parents qui ouvrent un compte à leurs enfants. Le nombre de sociétaire diminue pour un age d'adhésion allant d'environ 25 ans jusqu'à 80 ans voire plus, avec un maximum de 90 ans.
+notons que 75\% des sociétaire ont 46 ans ou moins et que la moyenne d'age à l'adhésion est de 37.45 ans (voir ~\ref{tab:AGEAD-table})).\\
 
 \textbf{CDCATCL} - Type de client (catégorie)
 \figureDistribution{CDCATCL}
-L'organisme bancaire classe ses clients en 3 catégories et on observe que la catégorie 21 est largement majoritaire
-Répond sur discord !
+\inputDescription{CDCATCL}
+L'organisme bancaire classe ses clients en 3 catégories et on observe que la catégorie 21 est largement majoritaire avec 70\% des sociétaires qui en font partie.
+La catégorie 10 arrive en seconde position avec 25\% des clients et les 5\% restant sont dans les autres catégories. Ceci est illustré dans les figures ~\ref{fig:CDCATCL-distribution} et ~\ref{tab:CDCATCL-table}\\
+
+
+\textbf{CDSEXE} - Code relatif au sexe
 \figureDistribution{CDSEXE}
 \inputDescription{CDSEXE}
+Dans les figures ~\ref{fig:CDSEXE-distribution} et ~\ref{tab:CDSEXE-table}, on observe que 88\% des clients sont réparti équitablement entre les catégories de sexe 2 et 3 et les 12\%restants sont dans la catégorie 4.\\
 
+
+\textbf{CDSITFAM} - Situation familiale
 \figureDistribution{CDSITFAM}
 \inputDescription{CDSITFAM}
+L'analyse de la figure ~\ref{fig:CDSITFAM-table} révèle que parmis les client de la banque, 46\% sont dans la catégorie de situation familliale A, 27\% dans la M, 14\% dans la C et tous les autres clients sont réparti dans les 9 autres catégories, avec un légère prédilection pour les catégories U et D, comme le montre la figure ~\ref{fig:CDSITFAM-distribution}.\\
 
+
+\textbf{CDTMT} - Code représentant le statut du sociétaire
 \figureDistribution{CDTMT}
 \inputDescription{CDTMT}
+77\% des clients de la banque ont un statut classé 0 par la banque et 23\% classé 0, comme cela peut être vu dans les figures ~\ref{fig:CDTMT-table} et ~\ref{fig:CDTMT-distribution}.
 
+
+\textbf{MTREV} - Montant des revenus
 \figureDistribution{MTREV}
 \inputDescription{MTREV}
-
+Dans la figure ~\ref{fig:MTREV-distribution}, on observe un seul pic à 0 et beaucoup d'outliers, avec notamment une personne avec une valeur de revenu annuel de 1 524 490, comme le montre la figure ~\ref{fig:MTREV-table}. La plupart des sociétaire ont soit un revenu annuel nul, soit ne déclarent pas leurs revenus.
 
 
 
@@ -249,15 +390,86 @@ Répond sur discord !
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Outils de fouille}
-\begin{itemize}
-	\item Décrivez très brièvement les algorithmes que vous avez appliqués, en indiquant ceux qui ont été imposés (le cas échéant), ceux que vous avez sélectionnés, ceux qui ont été vus en cours mais écartés, et en \textbf{justifiant} ces choix.
-	\item Pour les algorithmes retenus, indiquez quels sont les paramètres et options acceptés par les implémentations Python utilisées. Soyez \textbf{exhaustifs}, en listant tous les paramètres et options, et en expliquant pour chacun son rôle vis-à-vis de l'algorithme concerné.
-      \item Indiquez sur quels paramètres vous avez joué pour tenter d'améliorer les résultats, en \textbf{justifiant} vos choix. 
-\end{itemize}
+% \begin{itemize}
+% 	\item Décrivez très brièvement les algorithmes que vous avez appliqués, en indiquant ceux qui ont été imposés (le cas échéant), ceux que vous avez sélectionnés, ceux qui ont été vus en cours mais écartés, et en \textbf{justifiant} ces choix.
+% 	\item Pour les algorithmes retenus, indiquez quels sont les paramètres et options acceptés par les implémentations Python utilisées. Soyez \textbf{exhaustifs}, en listant tous les paramètres et options, et en expliquant pour chacun son rôle vis-à-vis de l'algorithme concerné.
+%       \item Indiquez sur quels paramètres vous avez joué pour tenter d'améliorer les résultats, en \textbf{justifiant} vos choix. 
+% \end{itemize}
+
+
+Nous nous sommes appuyés sur la bibliothèque sklearn pour implémenter nos algorithmes de fouille de données. Il nous a été demandé d'implémenter un SVM (Support Vector Machine), un KNN (K-Nearest Neighbors), Naive Bayes pour données catégorielles et nous avons choisi de mettre en place un MLP (Multi Layer Perceptron).
+Passons en revue chacun de ces algorithmes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{SVM (Support Vector Machine) [imposé]}
+
+Pour cette méthode, nous utiliserons l'implémentation svm de sklearn.
+
+\textbf{Description}
+
+Les SVM (Support Vector Machines) sont un type de modèle de classification supervisée. Les SVM cherchent à trouver le meilleur plan de séparation (appelé vecteur de support) entre les groupes de données en maximisant la marge, c'est-à-dire la distance entre les données les plus proches des groupes séparés. Les plan de séparation produits sont en réalité des hyperplans de dimension n-1, n étant le nombre d'attributs.
+
+\textbf{Justification}
+
+Le choix de cette méthode se justifie par l'idée qu'il doit exister des seuils pour chaque groupe de valeur d'attributs de sorte qu'une fois ces seuils dépassés, les individu changent de catégories. Par exemple, pour tous les attributs fixé sauf un, il existe un seuil pour ce dernier attribut qui fait changer la catégorie de l'individu classé. Pour une autre valeur des attributs fixés, le seuil du dernier attribut ne serait toutefois pas le même. Par exemple, pour tout attribut fixé sauf l'âge à l'adhésion on peut imaginer que pour un personne riche, si elle a moins de 20 ans, elle est démissionnaire car elle n'as pas choisi sa banque mais ce sont ces parents, et inversement si elle a plus de 20 ans. Si la personne est un peu moins riche, le seuil d'âge passe peut être à 21 ans, et si cette fois c'est l'âge à l'adhésion qui change, alors le seuil sur l'âge passe peut-être à 19 ans \\
+En proposant un hyperplan de séparation des classes, les SVM permettent de prendre en compte cette vision des choses. En effet, pour n-1 attributs fixés, le fait qu'un point se trouve d'un côté ou l'autre de l'hyperplan ne dépends que de la valeur du n-ème attribut.\\
+Si nos hypothèses sont vérifiée, un SVM devrait donc bien s'en sortir tout en demandant moins de ressources qu'un technique plus complexe par exemple.
+
+
+% TODO
+\textbf{Paramètres}
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{KNN (K-Nearest Neighbors) [imposé]}
 
+Nous utiliserons l'implémentation KNeighborsClassifier de sklearn.neighbors pour cette méthode.
+
+\textbf{Description}
+KNN (k-Nearest Neighbors) est un algorithme de classification supervisée qui assigne une étiquette à une observation en se basant sur les étiquettes des k observations les plus proches dans l'espace des features. Il est basé sur l'idée qu'une observation ressemble davantage à ses voisins les plus proches qu'à des observations plus éloignées. Le nombre k est un paramètre choisi par l'utilisateur, il détermine combien de voisins doivent être pris en compte lors de l'attribution de l'étiquette.
+
+\textbf{Justification}
+L'utilisation de cette méthode est justifiée par le fait qu'il existe certainement des groupes de personnes similaires dans chaque catégories. Ainsi, si une personne ressemble à un groupe en particulier et que ce groupe fait partie des démissionnaires, alors on peut espérer que la personne le soit également.\\
+Si l'hypothèse avancée dans le choix des SVM n'est pas vérifiée, alors pour tout attribut fixé sauf un, il existe pour l'attribut restant plusieurs plages de valeurs pour lesquelles l'individu est démissionnaire. Par exemple, pour tout attributs fixés à une certaine valeur sauf l'âge, il est possible que les personnes entre 10 et 20 ans et celles entre 30 et 40 ans soient démissionnaires et que les autres ne le soient pas.\\
+Puisque les KNN ne définissent pas de seuils, ils sont plus adaptés que les SVM dans le cas où cette nouvelle supposition est vérifiée. En effet, pour tout attributs similaires aux valeurs des attributs fixés précédemment, si la personne a entre 10 et 20 ou 30 et 40 ans, on peut espérer qu'elle sera proche de personnes démissionnaires par exemple.
+
+% TODO
+\textbf{Paramètres}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Naive Bayes [imposé]}
+
+Nous ferons appel à l'implémentation CategoricalNB de sklearn.naive\_bayes.
+
+\textbf{Description}
+Naive Bayes est un algorithme de classification statistique basé sur l'utilisation de la théorie de Bayes pour l'estimation des probabilités. Il est considéré comme "naïf" car il suppose que toutes les variables sont indépendantes les unes des autres, ce qui n'est généralement pas le cas dans les données réelles. Naive Bayes est capable de s'appuyer sur des probabilités d'observation conditionnelle observées dans un échantillon pour prédire la condition en fonction des observation.\\
+Par exemple, dans la détection de spam, on peut calculer la probabilité de chaque mot sachant que le mail est un spam et celle sachant que le courrier n'est pas un spam. Naive Bayes est alors capable, étant donné les mots observés dans un mail, de donner la probabilité que le mail soit un spam.\\
+
+\textbf{Justification}
+Cet algorithme, dans sa version catégorielle, s'applique très bien ici puisque l'on a beaucoup de données de ce type et que nous pouvons facilement adapter les autres données. Cet algorithme est intéressant car il propose une toute autre approche que les SVM et KNN puisque celle-ci est probabiliste.\\
+Dans le cas où les attributs n'ont réellement aucune corrélation entre eux, alors d'une, il est inutile de vouloir définir des seuils pour chaque attribut basé sur les valeurs des autres (là où exellent les SVM), et il y a potentiellement peu de chance de trouver des individus proches puisque la valeur d'un attribut influe pas sur les autres. KNN ne serait donc pas d'une grande aide dans ce cas. En revanche, Naive Bayes serait tout à fait capable, indépendamment de toute définition de seuil et indépendemment de la distance entre individus, de définir les probabilité de chaque valeur d'attribut sachant que la personne est démissionnaire et inversement, afin d'établir la probabilité qu'une personne soit démissionnaire ou non, sachant les valeurs des attributs.
+
+% TODO
+\textbf{Paramètres}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{MLP (Multi Layer Perceptron) [selectionné]}
+
+Nous ferons appel à l'implémentation MLPClassifier de sklearn.neural\_network pour la mise en oeuvre de cette méthode.
+
+\textbf{Description}
+
+Les réseaux de neurones multi-couches (abbrévié MLP en anglais) sont un type de réseau de neurones artificiels qui utilisent plusieurs couches de neurones connectés entre eux. Il sont formés de couches d'entrée, cachées et de sortie. Les données d'entrée sont traitées par les couches cachées, qui utilisent des fonctions d'activation pour produire des sorties sont ensuite traitées par les couches suivantes pour finir par la couche de sortie pour produire une réponse ou une prédiction. Les réseaux de neurones permettent en général une bonne généralisation grâce à leur capacité à apprendre des fonctions de degré arbitraire dépendant seulement de la taille de leurs couches et de leur nombre. d'autres paramètres influent bien évidement la précision, la vitesse d'apprentissage, et d'autres aspects.
+
+\textbf{Justification}
+
+L'utilisation d'un MLP se justifie dans le cas ou un simple séparateur n'est pas suffisant, qu'il est difficile de faire des groupes d'individus et que les relations entre attributs sont complexes. À l'heure actuelle, les réseaux de neurones sont généralement très performants et nous sommes curieux de voir si ils permettent d'obtenir de meilleurs résultat pour la tâche qui nous a été donnée.
+
+%TODO
+\textbf{Paramètres}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Recodage}
@@ -266,6 +478,13 @@ Répond sur discord !
 	\item Pour chaque décision que vous prenez, vous devez \textbf{expliquer} et \textbf{justifier} votre choix.
 \end{itemize}
 
+Les méthodes évoquées précédemment nécessitent un recodage des données afin d'être appliquées. Nous avons utilisé quatre types de recodage :
+\begin{itemize}
+    \item 
+    \item 
+    \item 
+    \item 
+\end{itemize}
 
 
 
