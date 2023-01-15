@@ -77,7 +77,7 @@ class DataProvider:
         return self.data
 
 
-class SVMDataProvider(DataProvider):
+class AlphonseDataProvider(DataProvider):
     def __init__(self):
         transformers = dict()
         for col_name in LIST_KEPT_CAT_COLS:
@@ -87,7 +87,7 @@ class SVMDataProvider(DataProvider):
         super().__init__(transformers)
 
 
-class NaiveBayesDataProvider(DataProvider):
+class MartineDataProvider(DataProvider):
     def __init__(self):
         transformers = dict()
         for col_name in LIST_KEPT_CAT_COLS:
@@ -97,7 +97,7 @@ class NaiveBayesDataProvider(DataProvider):
         super().__init__(transformers)
 
 
-class KNNDataProvider(DataProvider):
+class JeremyDataProvider(DataProvider):
     def __init__(self):
         transformers = dict()
         for col_name in LIST_KEPT_CAT_COLS:

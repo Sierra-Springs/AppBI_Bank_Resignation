@@ -25,12 +25,12 @@ if __name__ == '__main__':
     DataProvider.set_percents(.60, .20, .20)
 
     # liste des modèles à tester
-    models = [SVMBaseAutoWeights(SVMDataProvider()),
-              KNNBaseDistanceWeights(KNNDataProvider()),
-              NaiveBayesBase(NaiveBayesDataProvider()),
-              MLPBase(SVMDataProvider())]
+    models = [SVMBaseAutoWeights(AlphonseDataProvider()),
+              KNNBaseDistanceWeights(JeremyDataProvider()),
+              NaiveBayesBase(MartineDataProvider()),
+              MLPBase(AlphonseDataProvider())]
 
-    models = [MLPBase(SVMDataProvider())]
+    models = [MLPBase(AlphonseDataProvider())]
 
     all_metrics = dict()  # Métriques de tous les modèles
     for model in models:
