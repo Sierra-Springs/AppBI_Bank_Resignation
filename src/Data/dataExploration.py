@@ -1,3 +1,4 @@
+import re
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -14,7 +15,7 @@ from Utils.ColorPrinter import *
 
 from pprint import pprint
 
-from dataPreparation import data_prepare
+from Data.dataPreparation import data_prepare
 
 
 def plot_numeric_distributions(df, tableName, method="distplot"):
@@ -114,16 +115,28 @@ def compute_df_covariance(table, tableName):
 
 def export_df_to_latex(df, filepath, nb_col_by_line=6, float_format="%.2f", col_space=2):
     with open(filepath, 'w') as outfile:
-        cols = df.columns.values
-        sep_cols = [[cols[j * nb_col_by_line + i] for i in range(nb_col_by_line)] for j in
-                    range(len(cols) // nb_col_by_line)]
-        sep_cols.append(cols[-1 * (len(cols) % nb_col_by_line):].tolist())
-
+        if df.columns.dtype == "category":
+            cols = df.columns.categories.values
+        else:
+            cols = df.columns.values
+        print("cols", cols)
+        print("_")
+        sep_cols = [cols[j * nb_col_by_line:j * nb_col_by_line + nb_col_by_line] for j in
+                    range(len(cols) // nb_col_by_line + 1) if j * nb_col_by_line < len(cols)]
+        print("sep", sep_cols)
+        print()
         for current_cols in sep_cols:
-            df.to_latex(buf=outfile,
-                        float_format=float_format,
+            lines = df.to_latex(float_format=float_format,
                         columns=current_cols,
                         col_space=col_space)
+            lines = lines.replace("\\toprule", "\\hline")
+            lines = lines.replace("\\midrule", "\\hline")
+            lines = lines.replace("\\bottomrule", "\\hline")
+
+            lines = lines.splitlines()
+            lines.insert(2, "\\rowcolor{fgLightRed}")
+            #input()
+            outfile.write("\n".join(lines))
             outfile.write("\n")
 
 
@@ -155,6 +168,9 @@ def prepared_data_exploration():
 
     df = data_prepare()
     df[CCN_CDSITFAM] = pd.Categorical(df[CCN_CDSITFAM])
+    df[CCN_CDCATCL] = pd.Categorical(df[CCN_CDCATCL])
+    df[CCN_CDSEXE] = pd.Categorical(df[CCN_CDSEXE])
+    df[CCN_CDTMT] = pd.Categorical(df[CCN_CDTMT])
 
     blueprint("Apercu des données préparées")
     print(df)

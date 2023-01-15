@@ -30,9 +30,13 @@
 }
 
 \newcommand{\inputDescription}[1]{
-\begin{center}
-\input{texParts/prepared_data/description/#1_description.tex}
-\end{center}
+\begin{table}[htb!]
+	\centering
+	\rowcolors{1}{fgVeryLightRed}{}
+	\input{texParts/prepared_data/description/#1_description.tex}
+	\caption[Exemple de table hétérogène]{Exemple de table contenant du texte, des valeurs entières, réelles et des formules mathématiques.}
+	\label{tab:exemple}
+\end{table}
 }
 
 
@@ -224,6 +228,7 @@ Répond sur discord !
 \inputDescription{CDSEXE}
 
 \figureDistribution{CDSITFAM}
+\inputDescription{CDSITFAM}
 
 \figureDistribution{CDTMT}
 \inputDescription{CDTMT}
