@@ -9,7 +9,8 @@ V_DTDEM_NO_DEM = "31/12/1900"
 
 V_DTNAIS_INCORRECT = ""
 
-# Columns String names
+# Columns String (CS) names
+
 CS_DTNAIS = "DTNAIS"  # Date de naissance
 CS_DTADH = "DTADH"  # Date d’adhésion à l’organisme bancaire
 CS_DTDEM = "DTDEM"  # Date de démission
@@ -17,12 +18,12 @@ CS_ANNEEDEM = "ANNEEDEM"  # Année de démission
 CS_RANGDEM = "RANGDEM"  # Date de la démission au format N AAAA (code puis année)
 
 
-# Columns Categorical String names
+# Columns Categorical String (CCS) names
 
 CCS_CDMOTDEM = "CDMOTDEM"  # Motif de la démission (catégorie)
 
 
-# Columns Numeric names
+# Columns Numeric (CN) names
 
 CN_ID = "ID"  # Identifiant unique (dans ce fichier)
 CN_MTREV = "MTREV"  # Montant des revenus
@@ -34,7 +35,7 @@ CN_ADH = "ADH"  # Durée de la période d’adhésion, en années
 LIST_KEPT_NUM_COLS = [CN_MTREV, CN_NBENF, CN_AGEAD, CN_ADH]
 
 
-# Columns Categorical (numerical) names
+# Columns Categorical (Numerical) (CCN) names
 
 CCN_CDSEXE = "CDSEXE"  # Code relatif au sexe {1,2,3,4}
 CCN_CDSITFAM = "CDSITFAM"  # Situation familiale

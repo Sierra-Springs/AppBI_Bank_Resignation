@@ -11,6 +11,31 @@
 
 \usepackage{booktabs}  % Pour \{top/mid/bottom}rule générés par pandas (python)
 
+\newcommand{\figureDistribution}[1]{
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \includegraphics[width=\textwidth,]{fig/prepared_data/numeric_distribution/distplot/distplot__#1_distribution_in_prepared_data.png}
+        \caption{Densité [#1]}
+        \label{fig:#1_density}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/prepared_data/numeric_distribution/boxplot/boxplot__#1_distribution_in_prepared_data.png}
+        \caption{Diagramme moustache [#1]}
+        \label{fig:#1_boxplot}
+    \end{subfigure}
+    \label{fig:#1_distribution}
+\end{figure}
+}
+
+\newcommand{\inputDescription}[1]{
+\begin{center}
+\input{texParts/prepared_data/description/#1_description.tex}
+\end{center}
+}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \major{Master 2 informatique}
 \specialization{ILSEN/IA}
@@ -20,9 +45,8 @@
 
 %TODO Liste des auteurs
 \author{
-	Prénom1 Nom1 \\ % il faut aller à la ligne entre chaque auteur
-	Prénom2 Nom2 \\
-	Prénom3 Nom3
+	Damien Dallon \\ % il faut aller à la ligne entre chaque auteur
+	Nathanaël Lefèvre
 }
 
 \advisor[Responsable]{
@@ -30,7 +54,7 @@
 }
 
 %TODO Groupe des auteurs
-\group{Groupe xx}
+\group{Groupe IA-CLA}
 
 % Date de finalisation du rapport. 
 % La valeur par défaut, qui est recommandée, est la date du jour.
@@ -66,15 +90,15 @@
 \section{Présentation}
 
 
-table 1 \newline
+%table 1 \newline
 
-\input{texParts/tables/table1_corr}
+%\input{texParts/tables/table1_corr}
 
-\phantom{a}\newline
+%\phantom{a}\newline
 
-table 2 \newline
+%table 2 \newline
 
-\input{texParts/tables/table2_corr}
+%\input{texParts/tables/table2_corr}
 
 Si vous utilisez \LaTeX{} pour écrire votre rapport, veuillez consulter le tutoriel fourni à l'adresse suivante : \url{https://www.overleaf.com/latex/templates/modele-rapport-uapv/pdbgdpzsgwrt}. Attention, il vous faut accéder au \textit{code source} pour bénéficier des commentaires qu'il contient, et qui complètent le texte apparaissant dans le PDF produit.
 
@@ -93,6 +117,9 @@ Si vous faites une copie de ce document, configurez Overleaf pour qu'il le compi
 	\item Rappelez brièvement le contexte du projet et ses objectifs.
 \end{itemize}
 
+Un organisme bancaire a fait appel à nous pour mettre en place une solution de Machine Learning afin de détecter ses clients sociétaires qui sont sur le point de le quitter. Le but principal pour la banque est d'adapter sa relation client auprès de ceux identifiés comme démissionnaire afin de les convaincre de rester.\\
+
+Par ailleurs, l'explicabilité du modèle est également un point important pour l'organisme bancaire qui souhaite savoir quelles caractéristiques influent le plus sur la classification.
 
 
 
@@ -134,6 +161,11 @@ Si vous faites une copie de ce document, configurez Overleaf pour qu'il le compi
 	\item Soyez exhaustifs : fichiers de données, liste des attributs, nature et codage des valeurs, interprétation, unité dans laquelle la variable est exprimée (pour les variables numériques), etc.
 \end{itemize}
 
+Bon commençons à travailler, car c'est important le travail :)
+
+Nous avons accès à des données extraites en 2007 décrivant les sociétaires de l'organisme
+
+
 
 
 
@@ -167,15 +199,37 @@ En Section~\ref{sec:Nettoyage}, vous devez uniquement vous concentrer sur les pr
 En Section~\ref{sec:AnalyseDesc}, vous devez décrire votre analyse descriptive complète des données nettoyées.
 \end{beware}
 
+\subsubsection{Analyse par attribut}
+Une fois nos données nettoyées, voici les profils pour chaque attribut :\\
 
 
+\textbf{ADH} - Durée de la période d’adhésion, en années
+\figureDistribution{ADH}
+\inputDescription{ADH}
+On peut observer deux profils de sociétaires : ceux qui restent entre 0 et 13 ans et ceux qui restent entre 10 et 30 ans voire plus.
+Notons que les deux groupes sont assez bien réparti puisque la moyenne est à 12.57, c'est à dire à la frontière des deux groupes.\\
 
 
+\textbf{AGEAD} - Âge du client à l’adhésion, en années
+\figureDistribution{AGEAD}
+\inputDescription{AGEAD}
+Nous observons qu'il y a très peu d'adhésion entre 0 et 20 ans. On peut imaginer qu'à de bas âges, ce sont surtout les parents qui ouvrent un compte à leurs enfants. Le nombre de sociétaire diminue pour un age d'adhésion allant d'environ 25 ans jusqu'à 80 ans voire plus, avec un maximum de 90 ans.
+notons que 75\% des sociétaire ont 46 ans ou moins et que la moyenne d'age à l'adhésion est de 37.45 ans.
 
+\textbf{CDCATCL} - Type de client (catégorie)
+\figureDistribution{CDCATCL}
+L'organisme bancaire classe ses clients en 3 catégories et on observe que la catégorie 21 est largement majoritaire
+Répond sur discord !
+\figureDistribution{CDSEXE}
+\inputDescription{CDSEXE}
 
+\figureDistribution{CDSITFAM}
 
+\figureDistribution{CDTMT}
+\inputDescription{CDTMT}
 
-
+\figureDistribution{MTREV}
+\inputDescription{MTREV}
 
 
 
