@@ -27,6 +27,7 @@
         \label{fig:#1-boxplot}
     \end{subfigure}
     \label{fig:#1-distribution}
+    \caption{#1-distribution}
 \end{figure}
 }
 
@@ -36,6 +37,7 @@
 	\rowcolors{1}{fgVeryLightRed}{}
 	\input{texParts/prepared_data/description/#1_description.tex}
 	\label{tab:#1-table}
+    \caption{#1-table}
 \end{table}
 }
 
@@ -167,10 +169,12 @@ Par ailleurs, l'explicabilité du modèle est également un point important pour
 
 % Bon commençons à travailler, car c'est important le travail :)
 
-Nous avons accès à des données extraites en 2007 décrivant les sociétaires de l'organisme. Il s'agit de deux fichiers de données tabulaires : \texttt{table1.csv} et \texttt{table2.csv}.
+Nous avons accès à des données extraites en 2007 décrivant les sociétaires de l'organisme. Il s'agit de deux fichiers de données tabulaires : \texttt{table1.csv} et \texttt{table2.csv}.\\
+
 \begin{itemize}
     \item \texttt{table1.csv} contient les 30 332 \textit{démissionnaires} de l’organisme, pour la période
-allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant quitté l'organisme. Ses attributs sont décrits dans la Table~\ref{tab:attrCSV1}.
+allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant quitté l'organisme. Ses attributs sont décrits dans la Table~\ref{tab:attrCSV1}.\\
+
     \item \texttt{table2.csv} contient un échantillon aléatoire de 15 022 sociétaires, incluant des démissionnaires et des sociétaires actuels (pour des raisons de simplicité, nous considérerons comme "actuels" les sociétaires étant toujours clients de l'organisme au moment de l'extraction). Ses attributs sont décrits dans la Table~\ref{tab:attrCSV2}.
 \end{itemize}
 
@@ -179,7 +183,7 @@ allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant qui
 	\rowcolors{1}{fgVeryLightRed}{}
 	\begin{tabular}{l l l}
 		\hline
-		% \rowcolor{fgLightRed} 
+		\rowcolor{fgLightRed} 
 		\textbf{Variable} & \textbf{Type} & \textbf{Nature}	\\ 
 		\hline
              ID & Quantitative discret & int \\
@@ -206,7 +210,7 @@ allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant qui
  \rowcolors{1}{fgVeryLightRed}{}
         \begin{tabular}{l l}
 		\hline
-		% \rowcolor{fgLightRed} 
+		\rowcolor{fgLightRed} 
 		\textbf{Variable} & \textbf{Description} \\ 
 		\hline
              ID & Identifiant unique (dans ce fichier) \\
@@ -239,7 +243,7 @@ allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant qui
 	\rowcolors{1}{fgVeryLightRed}{}
 	\begin{tabular}{l l l}
 		\hline
-		% \rowcolor{fgLightRed} 
+		\rowcolor{fgLightRed} 
 		\textbf{Variable} & \textbf{Type} & \textbf{Nature}	\\ 
 		\hline
              ID & Quantitative discret & int \\
@@ -259,7 +263,7 @@ allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant qui
  \rowcolors{1}{fgVeryLightRed}{}
         \begin{tabular}{l l}
 		\hline
-		% \rowcolor{fgLightRed} 
+		\rowcolor{fgLightRed} 
 		\textbf{Variable} & \textbf{Description} \\ 
 		\hline
              ID & Identifiant unique (dans ce fichier) \\
@@ -292,22 +296,71 @@ allant de 1999 à 2006. Un \textit{démissionnaire} est un sociétaire ayant qui
 % % 	\item Discutez la fusion des tables : l'avez-vous jugée nécessaire ? Et si oui comment avez-vous procédé ?
 % \end{itemize}
 
-Rappelons que notre objectif est de pouvoir identifier les sociétaires démissionnaires, afin de pouvoir détecter des profils démissionnaires parmi les sociétaires actuels. Il nous faut donc le plus de données possibles combinant sociétaires actuels et démissionnaires et il est ainsi impensable de se contenter uniquement des données contenues dans \texttt{table2.csv}. Nous devons donc fusionner les deux tables mais cela implique des incompatibilités au niveau des attributs.
+Rappelons que notre objectif est de pouvoir identifier les sociétaires démissionnaires, afin de pouvoir détecter des profils démissionnaires parmi les sociétaires actuels. Il nous faut donc le plus de données possibles combinant sociétaires actuels et démissionnaires et il est ainsi impensable de se contenter uniquement des données contenues dans \texttt{table2.csv}. Nous devons donc fusionner les deux tables mais cela implique des incompatibilités au niveau des attributs.\\
 
-Afin de réaliser cette fusion, nous avons :
+Afin de réaliser cette fusion, nous avons :\\
 \begin{itemize}
-    \item Éliminé les attributs liés à la démission. En effet, le but étant de déterminer si un sociétaire est démissionnaire ou non, tout attribut en lien avec la démission n'a pas lieu d'être car permettrait une identification bien trop évidente.
-    \item Utilisé les attributs dont les valeurs sont des dates pour en déduire des durées. Une date étant de nature complexe, les algorithmes ne peuvent pas les utiliser. Ainsi, afin de conserver un maximum d'information et d'homogénéiser les tables nous avons réalisé les traitements suivants :
+    \item Éliminé les attributs liés à la démission. En effet, le but étant de déterminer si un sociétaire est démissionnaire ou non, tout attribut en lien avec la démission n'a pas lieu d'être car permettrait une identification bien trop évidente.\\
+    
+    \item Utilisé les attributs dont les valeurs sont des dates pour en déduire des durées. Une date étant de nature complexe, les algorithmes ne peuvent pas les utiliser. Ainsi, afin de conserver un maximum d'information et d'homogénéiser les tables nous avons réalisé les traitements suivants :\\
+    
     \begin{itemize}
-        \item Calcul de la durée d'adhésion avec les attributs \texttt{DTADH} et \texttt{DTDEM} de \texttt{table2.csv}, équivalent à l'attribut \texttt{ADH} de \texttt{table1.csv}. Plus précisément, le calcul est effectué entre \texttt{DTADH} et \texttt{DTDEM} si le sociétaire est démissionnaire, sinon entre \texttt{DTADH} et 2007 (date de l'extraction des données).
+        \item Calcul de la durée d'adhésion avec les attributs \texttt{DTADH} et \texttt{DTDEM} de \texttt{table2.csv}, équivalent à l'attribut \texttt{ADH} de \texttt{table1.csv}. Plus précisément, le calcul est effectué entre \texttt{DTADH} et \texttt{DTDEM} si le sociétaire est démissionnaire, sinon entre \texttt{DTADH} et 2007 (date de l'extraction des données).\\
+        
         \item Calcul de l'âge à l'adhésion avec les attributs \texttt{DTNAIS} et \texttt{DTADH} de \texttt{table2.csv}, équivalent à l'attribut \texttt{AGEAD} de \texttt{table1.csv}. Avec suppression au préalable des individus dans \texttt{table2.csv} dont l'attribut \texttt{DTNAIS} a pour valeur "000-00-00". En effet sans la date de naissance il nous était impossible de connaître l'âge à l'adhésion, et nous avons préféré supprimer ces individus car certains algorithme ne supportent pas les valeurs manquantes.
     \end{itemize}
-    Après ces calculs nous avons supprimés les attributs ayant une date pour valeur. Aussi, afin d'harmoniser les attributs des deux tables, nous avons créer les attributs \texttt{ADH} et \texttt{AGEAD} dans la table issue de \texttt{table2.csv}.
-    \item Éliminé les attributs ID des deux tables.
-    \item Éliminé les attributs représentant des intervalles. Ces attributs étant soit liés à la démission, soit à la période d'adhésion ou à l'âge d'adhésion que nous avons calculé, nous avons décidé qu'ils ne nous seraient pas utiles.
-    \item Éliminé l'attribut \texttt{BPADH} car nous ne connaissons pas sa signification et ne savons pas si la valeur "0" correspond à un manque d'information ou non.
+    Après ces calculs nous avons supprimés les attributs ayant une date pour valeur. Aussi, afin d'harmoniser les attributs des deux tables, nous avons créer les attributs \texttt{ADH} et \texttt{AGEAD} dans la table issue de \texttt{table2.csv}.\\
+    
+    \item Éliminé les attributs ID des deux tables.\\
+    
+    \item Éliminé les attributs représentant des intervalles. Ces attributs étant soit liés à la démission, soit à la période d'adhésion ou à l'âge d'adhésion que nous avons calculé, nous avons décidé qu'ils ne nous seraient pas utiles.\\
+    
+    \item Éliminé l'attribut \texttt{BPADH} car nous ne connaissons pas sa signification et ne savons pas si la valeur "0" correspond à un manque d'information ou non.\\
+    
     \item Rajouté l'attribut \texttt{ISDEM} aux deux tables en tant que label. "1" signifie que l'individu est démissionnaire, "0" sinon.
 \end{itemize}
+
+Ainsi après nettoyage et fusion des deux tables issues des fichiers \texttt{table1.csv} et \texttt{table2.csv} nous obtenons une table avec les attributs listés dans la Table~\ref{tab:attrTableClean}.
+
+\begin{table}[htb!]
+	% \centering
+	\rowcolors{1}{fgVeryLightRed}{}
+	\begin{tabular}{l l l}
+		\hline
+		\rowcolor{fgLightRed} 
+		\textbf{Variable} & \textbf{Type} & \textbf{Nature}	\\ 
+		\hline
+             CDSEXE & Qualitative nominale & int \\
+             MTREV & Quantitative discret & int \\
+             NBENF & Quantitative discret & int \\
+             CDSITFAM & Qualitative nominale & char \\
+             CDTMT & Qualitative nominale & int \\
+             CDCATCL & Qualitative nominale & int \\
+             AGEAD & Quantitative discret & int \\
+             ADH & Quantitative discret & int \\
+             ISDEM & Qualitative nominale & int \\
+		\hline
+	\end{tabular} \\
+ \rowcolors{1}{fgVeryLightRed}{}
+        \begin{tabular}{l l}
+		\hline
+		\rowcolor{fgLightRed} 
+		\textbf{Variable} & \textbf{Description} \\ 
+		\hline
+             CDSEXE & Code relatif au sexe \\
+             MTREV & Montant des revenus \\
+             NBENF & Nombre d’enfants \\
+             CDSITFAM & Situation familiale \\
+             CDTMT & Code représentant le statut du sociétaire (catégorie) \\
+             CDCATCL & Type de client (catégorie) \\
+             AGEAD & Âge du client à l’adhésion, en années \\
+             ADH & Durée de la période d’adhésion, en années \\
+             ISDEM & Démissionnaire ou non \\
+		\hline
+	\end{tabular}
+	\caption[]{Attributs présents dans la table après nettoyage des données}
+	\label{tab:attrTableClean}
+\end{table}
 
 
 
@@ -338,45 +391,45 @@ Une fois nos données nettoyées, nous avons analysé celles-ci pour étudier la
 \textbf{ADH} - Durée de la période d’adhésion, en années
 \figureDistribution{ADH}
 \inputDescription{ADH}
-Dans la figure ~\ref{fig:ADH-distribution}, on peut observer deux profils de sociétaires : ceux qui restent entre 0 et 13 ans et ceux qui restent entre 10 et 30 ans voire plus.
-Notons que les deux groupes sont assez bien réparti puisque la moyenne est à 12.57, c'est à dire à la frontière des deux groupes. (voir ~\ref{tab:ADH-table})\\
+Dans la figure \hyperref[fig:ADH-distribution]{ADH-distribution}, on peut observer deux profils de sociétaires : ceux qui restent entre 0 et 13 ans et ceux qui restent entre 10 et 30 ans voire plus.
+Notons que les deux groupes sont assez bien réparti puisque la moyenne est à 12.57, c'est à dire à la frontière des deux groupes. (voir \hyperref[tab:ADH-table]{ADH-table})\\
 
 
 \textbf{AGEAD} - Âge du client à l’adhésion, en années
 \figureDistribution{AGEAD}
 \inputDescription{AGEAD}
-Nous observons qu'il y a très peu d'adhésion entre 0 et 20 ans comme le montre la figure ~\ref{fig:AGEAD-distribution}. On peut imaginer qu'à de bas âges, ce sont surtout les parents qui ouvrent un compte à leurs enfants. Le nombre de sociétaire diminue pour un age d'adhésion allant d'environ 25 ans jusqu'à 80 ans voire plus, avec un maximum de 90 ans.
-notons que 75\% des sociétaire ont 46 ans ou moins et que la moyenne d'age à l'adhésion est de 37.45 ans (voir ~\ref{tab:AGEAD-table})).\\
+Nous observons qu'il y a très peu d'adhésion entre 0 et 20 ans comme le montre la figure \hyperref[fig:AGEAD-distribution]{AGEAD-distribution}. On peut imaginer qu'à de bas âges, ce sont surtout les parents qui ouvrent un compte à leurs enfants. Le nombre de sociétaire diminue pour un age d'adhésion allant d'environ 25 ans jusqu'à 80 ans voire plus, avec un maximum de 90 ans.
+notons que 75\% des sociétaire ont 46 ans ou moins et que la moyenne d'age à l'adhésion est de 37.45 ans (voir \hyperref[tab:AGEAD-table]{AGEAD-table})).\\
 
 \textbf{CDCATCL} - Type de client (catégorie)
 \figureDistribution{CDCATCL}
 \inputDescription{CDCATCL}
 L'organisme bancaire classe ses clients en 3 catégories et on observe que la catégorie 21 est largement majoritaire avec 70\% des sociétaires qui en font partie.
-La catégorie 10 arrive en seconde position avec 25\% des clients et les 5\% restant sont dans les autres catégories. Ceci est illustré dans les figures ~\ref{fig:CDCATCL-distribution} et ~\ref{tab:CDCATCL-table}\\
+La catégorie 10 arrive en seconde position avec 25\% des clients et les 5\% restant sont dans les autres catégories. Ceci est illustré dans les figures \hyperref[fig:CDCATCL-distribution]{CDCATCL-distribution} et \hyperref[tab:CDCATCL-table]{CDCATCL-table}\\
 
 
 \textbf{CDSEXE} - Code relatif au sexe
 \figureDistribution{CDSEXE}
 \inputDescription{CDSEXE}
-Dans les figures ~\ref{fig:CDSEXE-distribution} et ~\ref{tab:CDSEXE-table}, on observe que 88\% des clients sont réparti équitablement entre les catégories de sexe 2 et 3 et les 12\%restants sont dans la catégorie 4.\\
+Dans les figures \hyperref[fig:CDSEXE-distribution]{CDSEXE-distribution} et \hyperref[tab:CDSEXE-table]{CDSEXE-table}, on observe que 88\% des clients sont réparti équitablement entre les catégories de sexe 2 et 3 et les 12\%restants sont dans la catégorie 4.\\
 
 
 \textbf{CDSITFAM} - Situation familiale
 \figureDistribution{CDSITFAM}
 \inputDescription{CDSITFAM}
-L'analyse de la figure ~\ref{fig:CDSITFAM-table} révèle que parmis les client de la banque, 46\% sont dans la catégorie de situation familliale A, 27\% dans la M, 14\% dans la C et tous les autres clients sont réparti dans les 9 autres catégories, avec un légère prédilection pour les catégories U et D, comme le montre la figure ~\ref{fig:CDSITFAM-distribution}.\\
+L'analyse de la figure \hyperref[tab:CDSITFAM-table]{CDSITFAM-table} révèle que parmis les client de la banque, 46\% sont dans la catégorie de situation familliale A, 27\% dans la M, 14\% dans la C et tous les autres clients sont réparti dans les 9 autres catégories, avec un légère prédilection pour les catégories U et D, comme le montre la figure \hyperref[fig:CDSITFAM-distribution]{CDSITFAM-distribution}.\\
 
 
 \textbf{CDTMT} - Code représentant le statut du sociétaire
 \figureDistribution{CDTMT}
 \inputDescription{CDTMT}
-77\% des clients de la banque ont un statut classé 0 par la banque et 23\% classé 0, comme cela peut être vu dans les figures ~\ref{fig:CDTMT-table} et ~\ref{fig:CDTMT-distribution}.
+77\% des clients de la banque ont un statut classé 0 par la banque et 23\% classé 0, comme cela peut être vu dans les figures \hyperref[tab:CDTMT-table]{CDTMT-table} et \hyperref[fig:CDTMT-distribution]{CDTMT-distribution}.
 
 
 \textbf{MTREV} - Montant des revenus
 \figureDistribution{MTREV}
 \inputDescription{MTREV}
-Dans la figure ~\ref{fig:MTREV-distribution}, on observe un seul pic à 0 et beaucoup d'outliers, avec notamment une personne avec une valeur de revenu annuel de 1 524 490, comme le montre la figure ~\ref{fig:MTREV-table}. La plupart des sociétaire ont soit un revenu annuel nul, soit ne déclarent pas leurs revenus.
+Dans la figure \hyperref[fig:MTREV-distribution]{MTREV-distribution}, on observe un seul pic à 0 et beaucoup d'outliers, avec notamment une personne avec une valeur de revenu annuel de 1 524 490, comme le montre la figure \hyperref[tab:MTREV-table]{MTREV-table}. La plupart des sociétaire ont soit un revenu annuel nul, soit ne déclarent pas leurs revenus.
 
 
 
@@ -403,87 +456,219 @@ Passons en revue chacun de ces algorithmes.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{SVM (Support Vector Machine) [imposé]}
 
-Pour cette méthode, nous utiliserons l'implémentation svm de sklearn.
+Pour cette méthode, nous utiliserons l'implémentation SVC de sklearn.svm.\\
 
 \textbf{Description}
 
-Les SVM (Support Vector Machines) sont un type de modèle de classification supervisée. Les SVM cherchent à trouver le meilleur plan de séparation (appelé vecteur de support) entre les groupes de données en maximisant la marge, c'est-à-dire la distance entre les données les plus proches des groupes séparés. Les plan de séparation produits sont en réalité des hyperplans de dimension n-1, n étant le nombre d'attributs.
+Les SVM (Support Vector Machines) sont un type de modèle de classification supervisée. Les SVM cherchent à trouver le meilleur plan de séparation (appelé vecteur de support) entre les groupes de données en maximisant la marge, c'est-à-dire la distance entre les données les plus proches des groupes séparés. Les plan de séparation produits sont en réalité des hyperplans de dimension n-1, n étant le nombre d'attributs.\\
 
 \textbf{Justification}
 
 Le choix de cette méthode se justifie par l'idée qu'il doit exister des seuils pour chaque groupe de valeur d'attributs de sorte qu'une fois ces seuils dépassés, les individu changent de catégories. Par exemple, pour tous les attributs fixé sauf un, il existe un seuil pour ce dernier attribut qui fait changer la catégorie de l'individu classé. Pour une autre valeur des attributs fixés, le seuil du dernier attribut ne serait toutefois pas le même. Par exemple, pour tout attribut fixé sauf l'âge à l'adhésion on peut imaginer que pour un personne riche, si elle a moins de 20 ans, elle est démissionnaire car elle n'as pas choisi sa banque mais ce sont ces parents, et inversement si elle a plus de 20 ans. Si la personne est un peu moins riche, le seuil d'âge passe peut être à 21 ans, et si cette fois c'est l'âge à l'adhésion qui change, alors le seuil sur l'âge passe peut-être à 19 ans \\
 En proposant un hyperplan de séparation des classes, les SVM permettent de prendre en compte cette vision des choses. En effet, pour n-1 attributs fixés, le fait qu'un point se trouve d'un côté ou l'autre de l'hyperplan ne dépends que de la valeur du n-ème attribut.\\
-Si nos hypothèses sont vérifiée, un SVM devrait donc bien s'en sortir tout en demandant moins de ressources qu'un technique plus complexe par exemple.
+Si nos hypothèses sont vérifiée, un SVM devrait donc bien s'en sortir tout en demandant moins de ressources qu'un technique plus complexe par exemple.\\
 
 
-% TODO
+% TODO ajouter quels parmètres seront modifiés
 \textbf{Paramètres}
 
+Voici les différents paramètres pris en charge par le modèle SVC de sklearn. Le nom de chaque paramètre est donné avec sa valeur par défaut et une explication.\\
+
+\begin{itemize}
+    \item  \textbf{C}=1.0 - Le paramètre C dans le module SVM de sklearn est le paramètre de régularisation. Il permet de contrôler le trade-off entre l'évitement de l'overfitting et la maximisation de la classification correcte. Plus C est grand, plus la pénalité pour les erreurs de classification sera élevée, ce qui entraînera un modèle plus complexe et qui s'ajustera davantage aux données d'entraînement. Plus C est petit, plus la pénalité sera faible et le modèle sera plus simple et plus généralisable.\\
+    
+    \item  \textbf{kernel}='rbf' - Le noyau permet de projeter les données dans un espace où celles-ci sont linéairement séparable ou plus facilement linéairement séparables. "linear" utilise une fonction linéaire pour mapper les données, ce qui est adéquat pour les données déjà linéairement séparables, "rbf" utilise une fonction gaussienne et "poly" utilise une fonction polynômiale. Il existe aussi les option "sigmoid" et précomputed, et il est possible de fournir son propre kernel sous la forme d'un callable.\\
+    
+    \item  \textbf{degree}=3 - degré de la fontion polynomiale pour le paramètre kernel="poly". Les autres kernel ignorent ce paramètre.\\
+    
+    \item  \textbf{gamma}='scale' - Le paramètre gamma est utilisé conjointement avec le paramètre kernel pour contrôler l'influence d'un seul exemple d'entraînement. Un gamma plus grand signifie qu'un exemple d'entraînement aura une influence plus importante sur la décision, ce qui peut entraîner un ajustement plus serré aux données d'entraînement mais avec un risque d'overfitting.\\
+    
+    \item  \textbf{coef0}=0.0 - Il s'agit du terme constant dans la fonction polynomiale ou la sigmoid\\
+    
+    \item  \textbf{shrinking}=True - Il s'agit d'une heuristique permettant d'accélérer l'entraînement mais conduisant potentiellement à un résultat non optimal, puisqu'il s'agit justement d'une heuristique.\\
+    
+    \item  \textbf{probability}=False - Permet de calculer la probabilité de chaque classe si réglé sur True.\\
+    
+    \item  \textbf{tol}=0.001 - Permet de spécifier la tolérance pour l'arrêt de la résolution du problème d'optimisation. Il s'agit d'un seuil de convergence pour la différence entre les valeurs de la fonction de coût entre deux itérations consécutives.\\
+    
+    \item  \textbf{cache\_size}=200 - Il s'agit de la taille du cache en Mo pour les résultat intermédaires de la fonction kernel.\\
+    
+    \item  \textbf{class\_weight}=None - permet de mettre des poids sur les différentes classes.\\
+    
+    \item  \textbf{verbose}=False - active le mode verbeux.\\
+    
+    \item  \textbf{max\_iter}=-1 - Permet de limiter le nombre d'itérations. Il n'y a pas de limite par défaut.\\
+    
+    \item \textbf{decision\_function\_shape}='ovr' - permet de choisir la forme de la fonction de décision. "ovr" pour "One Versus Rest" qui propose une fonction de decision entre chaque classe et l'ensemble des autres et "ovo" pour "One Versus One" qui propose une fonction de classification entre chaque paire de classes.\\
+    
+    \item  \textbf{break\_ties}=False - Si decision\_function\_shape="ovr" et que le nombre de classes est suppérieur à 2, permet de choisir si il faut départager les classes en cas de prédiction non transitive des fonctions de décision (par exemple, si pour un individu la première prédit B plutôt que A, la seconde C plutôt que B et la dernière A plutôt que C). La classification pour cet individu est alors choisi aléatoirement si le paramètre est à False et en fonction de la confiance de chaque fonction.\\
+    
+    \item  \textbf{random\_state}=None - Permet de gérer le caractère aléatoire du mélange des données pour le calcul des praobabilités lors que probability est réglé sur True.
+\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{KNN (K-Nearest Neighbors) [imposé]}
 
-Nous utiliserons l'implémentation KNeighborsClassifier de sklearn.neighbors pour cette méthode.
+Nous utiliserons l'implémentation KNeighborsClassifier de sklearn.neighbors pour cette méthode.\\
 
 \textbf{Description}
-KNN (k-Nearest Neighbors) est un algorithme de classification supervisée qui assigne une étiquette à une observation en se basant sur les étiquettes des k observations les plus proches dans l'espace des features. Il est basé sur l'idée qu'une observation ressemble davantage à ses voisins les plus proches qu'à des observations plus éloignées. Le nombre k est un paramètre choisi par l'utilisateur, il détermine combien de voisins doivent être pris en compte lors de l'attribution de l'étiquette.
+
+KNN (k-Nearest Neighbors) est un algorithme de classification supervisée qui assigne une étiquette à une observation en se basant sur les étiquettes des k observations les plus proches dans l'espace des features. Il est basé sur l'idée qu'une observation ressemble davantage à ses voisins les plus proches qu'à des observations plus éloignées. Le nombre k est un paramètre choisi par l'utilisateur, il détermine combien de voisins doivent être pris en compte lors de l'attribution de l'étiquette.\\
 
 \textbf{Justification}
+
 L'utilisation de cette méthode est justifiée par le fait qu'il existe certainement des groupes de personnes similaires dans chaque catégories. Ainsi, si une personne ressemble à un groupe en particulier et que ce groupe fait partie des démissionnaires, alors on peut espérer que la personne le soit également.\\
 Si l'hypothèse avancée dans le choix des SVM n'est pas vérifiée, alors pour tout attribut fixé sauf un, il existe pour l'attribut restant plusieurs plages de valeurs pour lesquelles l'individu est démissionnaire. Par exemple, pour tout attributs fixés à une certaine valeur sauf l'âge, il est possible que les personnes entre 10 et 20 ans et celles entre 30 et 40 ans soient démissionnaires et que les autres ne le soient pas.\\
-Puisque les KNN ne définissent pas de seuils, ils sont plus adaptés que les SVM dans le cas où cette nouvelle supposition est vérifiée. En effet, pour tout attributs similaires aux valeurs des attributs fixés précédemment, si la personne a entre 10 et 20 ou 30 et 40 ans, on peut espérer qu'elle sera proche de personnes démissionnaires par exemple.
+Puisque les KNN ne définissent pas de seuils, ils sont plus adaptés que les SVM dans le cas où cette nouvelle supposition est vérifiée. En effet, pour tout attributs similaires aux valeurs des attributs fixés précédemment, si la personne a entre 10 et 20 ou 30 et 40 ans, on peut espérer qu'elle sera proche de personnes démissionnaires par exemple.\\
 
-% TODO
+% TODO : ajouter les paramètres que l'on modifiera
 \textbf{Paramètres}
+
+Voici les différents paramètres pris en charge par le modèle KNeighborsClassifier de sklearn. Le nom de chaque paramètre est donné avec sa valeur par défaut et une explication.\\
+
+\begin{itemize}
+    \item \textbf{n\_neighbors}=5 - nombre de voisin à prendre en compte pour prendre la décision.\\
+    
+    \item \textbf{weights}='uniform'- poids des voisins dans la décision. "uniform" donne des poids égaux à tous les voisins, "distance" donne un poids inversement proportionnel à la distance et il est possible de fournir un callable.\\
+    
+    \item \textbf{algorithm}='auto' - permet de choisir l'algorithme utilisé pour trouver les plus proches voisins. "auto" tente de sélectionner l'algorithme le plus efficace en fonction des données d'entraînement.\\
+    
+    \item \textbf{leaf\_size}=30 - permet de choisir la taille des feulles des arbres pour certains algorithmes du paramètre algorithm.\\
+    
+    \item \textbf{p}=2 - paramètre de puissance pour la métrique Minkowski.\\
+    
+    \item \textbf{metric}='minkowski' - choix de la métrique pour calculer les distances entre les points.\\
+    
+    \item \textbf{metric\_params}=None - paramètres supplémentaires pour la métrique de distance.\\
+    
+    \item \textbf{n\_jobs}=None - Permet de régler le nombre de job parallèle pour la recherche des k plus proches voisins.
+\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Naive Bayes [imposé]}
 
-Nous ferons appel à l'implémentation CategoricalNB de sklearn.naive\_bayes.
+Nous ferons appel à l'implémentation CategoricalNB de sklearn.naive\_bayes.\\
 
 \textbf{Description}
+
 Naive Bayes est un algorithme de classification statistique basé sur l'utilisation de la théorie de Bayes pour l'estimation des probabilités. Il est considéré comme "naïf" car il suppose que toutes les variables sont indépendantes les unes des autres, ce qui n'est généralement pas le cas dans les données réelles. Naive Bayes est capable de s'appuyer sur des probabilités d'observation conditionnelle observées dans un échantillon pour prédire la condition en fonction des observation.\\
 Par exemple, dans la détection de spam, on peut calculer la probabilité de chaque mot sachant que le mail est un spam et celle sachant que le courrier n'est pas un spam. Naive Bayes est alors capable, étant donné les mots observés dans un mail, de donner la probabilité que le mail soit un spam.\\
 
 \textbf{Justification}
+
 Cet algorithme, dans sa version catégorielle, s'applique très bien ici puisque l'on a beaucoup de données de ce type et que nous pouvons facilement adapter les autres données. Cet algorithme est intéressant car il propose une toute autre approche que les SVM et KNN puisque celle-ci est probabiliste.\\
-Dans le cas où les attributs n'ont réellement aucune corrélation entre eux, alors d'une, il est inutile de vouloir définir des seuils pour chaque attribut basé sur les valeurs des autres (là où exellent les SVM), et il y a potentiellement peu de chance de trouver des individus proches puisque la valeur d'un attribut influe pas sur les autres. KNN ne serait donc pas d'une grande aide dans ce cas. En revanche, Naive Bayes serait tout à fait capable, indépendamment de toute définition de seuil et indépendemment de la distance entre individus, de définir les probabilité de chaque valeur d'attribut sachant que la personne est démissionnaire et inversement, afin d'établir la probabilité qu'une personne soit démissionnaire ou non, sachant les valeurs des attributs.
+Dans le cas où les attributs n'ont réellement aucune corrélation entre eux, alors d'une, il est inutile de vouloir définir des seuils pour chaque attribut basé sur les valeurs des autres (là où exellent les SVM), et il y a potentiellement peu de chance de trouver des individus proches puisque la valeur d'un attribut influe pas sur les autres. KNN ne serait donc pas d'une grande aide dans ce cas. En revanche, Naive Bayes serait tout à fait capable, indépendamment de toute définition de seuil et indépendemment de la distance entre individus, de définir les probabilité de chaque valeur d'attribut sachant que la personne est démissionnaire et inversement, afin d'établir la probabilité qu'une personne soit démissionnaire ou non, sachant les valeurs des attributs.\\
 
 % TODO
 \textbf{Paramètres}
+
+Voici les différents paramètres pris en charge par le modèle CategoricalNB de sklearn. Le nom de chaque paramètre est donné avec sa valeur par défaut et une explication.\\
+
+\begin{itemize}
+    \item \textbf{alpha}=1.0 - paramètre de smoothing permettant d'attribuer une probabilité non nulle pour les valeurs non rencontrées dans l'ensemble d'apprentissage.\\
+    
+    \item \textbf{force\_alpha}='warn' - par défaut, alpha a une valeur bornée par 1E-10. Mettre ce paramètre à True permet de supprimer cette limite. Si alpha est trop proche de zero, celà peut revenir à simplement désactiver le smoothing (ce qui peut efectivement être fait en mettant alpha à exactement 0 et ce paramètre à True).\\
+    
+    \item \textbf{fit\_prior}=True - indique si l'algorithme doit apprendre les probabilités à priori des classes (True) ou utiliser une probabilité uniforme (False).\\
+    
+    \item \textbf{class\_prior}=None - Permet de préciser la probabilité à priori des différentes classes si elles sont connue. Dans ce cas, fit\_prior est ignoré.\\
+    
+    \item \textbf{min\_categories}=None - indique le nombre de catégorie minimum par feature. Par défaut, il est déduit des données d'entraînement.\\
+\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{MLP (Multi Layer Perceptron) [selectionné]}
 
-Nous ferons appel à l'implémentation MLPClassifier de sklearn.neural\_network pour la mise en oeuvre de cette méthode.
+Nous ferons appel à l'implémentation MLPClassifier de sklearn.neural\_network pour la mise en oeuvre de cette méthode.\\
 
 \textbf{Description}
 
-Les réseaux de neurones multi-couches (abbrévié MLP en anglais) sont un type de réseau de neurones artificiels qui utilisent plusieurs couches de neurones connectés entre eux. Il sont formés de couches d'entrée, cachées et de sortie. Les données d'entrée sont traitées par les couches cachées, qui utilisent des fonctions d'activation pour produire des sorties sont ensuite traitées par les couches suivantes pour finir par la couche de sortie pour produire une réponse ou une prédiction. Les réseaux de neurones permettent en général une bonne généralisation grâce à leur capacité à apprendre des fonctions de degré arbitraire dépendant seulement de la taille de leurs couches et de leur nombre. d'autres paramètres influent bien évidement la précision, la vitesse d'apprentissage, et d'autres aspects.
+Les réseaux de neurones multi-couches (abbrévié MLP en anglais) sont un type de réseau de neurones artificiels qui utilisent plusieurs couches de neurones connectés entre eux. Il sont formés de couches d'entrée, cachées et de sortie. Les données d'entrée sont traitées par les couches cachées, qui utilisent des fonctions d'activation pour produire des sorties sont ensuite traitées par les couches suivantes pour finir par la couche de sortie pour produire une réponse ou une prédiction. Les réseaux de neurones permettent en général une bonne généralisation grâce à leur capacité à apprendre des fonctions de degré arbitraire dépendant seulement de la taille de leurs couches et de leur nombre. d'autres paramètres influent bien évidement la précision, la vitesse d'apprentissage, et d'autres aspects.\\
 
 \textbf{Justification}
 
-L'utilisation d'un MLP se justifie dans le cas ou un simple séparateur n'est pas suffisant, qu'il est difficile de faire des groupes d'individus et que les relations entre attributs sont complexes. À l'heure actuelle, les réseaux de neurones sont généralement très performants et nous sommes curieux de voir si ils permettent d'obtenir de meilleurs résultat pour la tâche qui nous a été donnée.
+L'utilisation d'un MLP se justifie dans le cas ou un simple séparateur n'est pas suffisant, qu'il est difficile de faire des groupes d'individus et que les relations entre attributs sont complexes. À l'heure actuelle, les réseaux de neurones sont généralement très performants et nous sommes curieux de voir si ils permettent d'obtenir de meilleurs résultat pour la tâche qui nous a été donnée.\\
 
 %TODO
 \textbf{Paramètres}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Recodage}
 \begin{itemize}
-	\item Certaines méthodes nécessitent un recodage des données pour pouvoir être appliquées : le cas échéant, expliquez comment vous avez procédé.
-	\item Pour chaque décision que vous prenez, vous devez \textbf{expliquer} et \textbf{justifier} votre choix.
+    \item \textbf{hidden\_layer\_sizes}=(100,) - Vecteur de tailles des couches cachées de dimension n-2 (les tailles des couches d'entrées et de sortie dépendent des données et de la tache de prédiction).\\
+   	
+    \item \textbf{activation}='relu' - type de fonction d'activation à la sortie des couches cachées.\\
+   	
+    \item \textbf{solver}='adam' - type de solver pour l'optimisation des poids. Certains solvers utilisent un learning rate adaptatif et permettent de converger plus vite vers la solution dans certains cas, ou de dépasser des minimum locaux par exemple. "adam" est rapide à converger et "SGD" est plus lent mais généralise mieux, par exemple.\\
+    
+    \item \textbf{alpha}=0.0001 - Force du paramètre de régularisation L2. Plus il est élevé, plus la régularisation est élevée et les poids sont forcés à être petits. Le but de la régularisation est d'éviter le sur-apprentissage.\\
+    
+    \item \textbf{batch\_size}='auto' - Taille des minibatch pour l'apprentissage. Utiliser des minibatch permet notamment de réduire le temps nécéssaire à l'apprentissage .\\
+    
+    \item \textbf{learning\_rate}='constant' - Uniquement utilisé pour le solveur "sgd", permet de choisir la stratégie d'adaptation du learning rate. "constant" n'adapte pas le learning rate (lr), "invscaling" l'adapte en le faisant diminuer à chaque étape et "adaptive" le garde constant le plus possible puis le divise par 5 à chaque fois que, pour deux époques consécutives, la loss ne diminue pas assez.\\
+    
+    \item \textbf{learning\_rate\_init}=0.001 - Taux ou pas d'apprentissage. Influe sur la vitesse à laquelle sont modifiés les poids.\\
+    
+    \item \textbf{power\_t}=0.5 - Paramètre utile pour "invscaling.\\
+    
+    \item \textbf{max\_iter}=200 - Nombre maximum d'itération. Permet de stopper l'apprentissage si le MLP ne converge pas dans un temps convenable.\\
+    
+    \item \textbf{shuffle}=True - Indique si les exemples doivent être mélangés à chaque itération (Seulement si le solver est "sgd" ou "adam").\\
+    
+    \item \textbf{random\_state}=None - Graine numérique pour l'initialisation des poids et biais.\\
+        
+    \item \textbf{tol}=0.0001 - Permet de spécifier la tolérance pour l'arrêt de la résolution du problème d'optimisation. Il s'agit d'un seuil de convergence pour la différence entre les valeurs de la fonction de coût entre deux itérations consécutives.\\
+    
+    \item \textbf{verbose}=False - Permet d'activer le mode verbeux.\\
+    
+    \item \textbf{warm\_start}=False - Si activé, permet d'utiliser la solution du dernier appel à la méthode fit pour initialiser les poids. Peut notamment permettre de faire de fine tuning sur de nouvelles données.\\
+    
+    \item \textbf{momentum}=0.9 - Momentum pour la descente du gradient avec "sgd". Le momentum permet de régler le poids de la prise en compte des anciennes valeurs du learning rate pour sa mise à jour.\\
+    
+    \item \textbf{nesterovs\_momentum}=True - Version alternative pour l'algorithme du momentum (seulement si solver = "sgd").\\
+    
+    \item \textbf{early\_stopping}=False - réserve validation\_fraction\% des données pour de la validation croisée et arrête l'entrainement lorsque n\_iter\_no\_change itération consécutives n'ont pas suffit à améliorer le score sur l'ensemble de validation.\\
+    
+    \item \textbf{validation\_fraction}=0.1 - Pourcentage des données réservé à la validation lorsque early\_stopping est à True.\\
+    
+    \item \textbf{beta\_1}=0.9 - Paramètre pour le premier momentum de Adam.\\
+    
+    \item \textbf{beta\_2}=0.999 - Paramètre pour le second momentum de Adam.\\
+    
+    \item \textbf{epsilon}=1e-08 - Paramètre de stabilité pour Adam.
+    
+    \item \textbf{n\_iter\_no\_change}=10 - Nombre d'itération consécutives pour tenter de contenter le paramètre tol avant arrêt de l'algorithme en cas de non contentement.\\
+    
+    \item \textbf{max\_fun}=15000 - Nombre maximum d'appel à la fonction de coût pour le solver "lbfgs".\\
 \end{itemize}
 
-Les méthodes évoquées précédemment nécessitent un recodage des données afin d'être appliquées. Nous avons utilisé quatre types de recodage :
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Recodage}
+% \begin{itemize}
+% 	\item Certaines méthodes nécessitent un recodage des données pour pouvoir être appliquées : le cas échéant, expliquez comment vous avez procédé.
+% 	\item Pour chaque décision que vous prenez, vous devez \textbf{expliquer} et \textbf{justifier} votre choix.
+% \end{itemize}
+
+Les méthodes évoquées précédemment nécessitent un recodage des données afin d'être appliquées. Nous avons utilisé quatre types de recodage :\\
 \begin{itemize}
-    \item 
-    \item 
-    \item 
-    \item 
+    \item La standardisation pour des attributs quantitatifs. Il s'agit, pour chaque valeur d'un attribut, de soustraire la moyenne des valeurs de cet attribut puis de diviser par l'écart-type. Cela permet d'obtenir des valeurs sur la même échelle pour un attribut.\\
+    
+    \item L'encodage One Hot pour des attributs qualitatifs. Il s'agit de créer un nouvel attribut par valeur possible pour un attribut et d'en indiquer la présence ou non pour un individu. Cela permet de convertir des attributs qualitatifs nominaux en quantitatifs sans y introduire une notion d'ordre.\\
+    
+    \item L'encodage ordinal pour des attributs qualitatifs. Il s'agit d'assigner une valeur discrète par valeur possible pour un attribut. Cela permet de convertir des attributs qualitatifs en attributs quantitatifs.\\
+    
+    \item La discrétisation pour des attributs quantitatifs. Il s'agit de créer des intervalles de valeurs pour un attribut de façon à les considérer comme des classes. Cela permet de convertir les attributs quantitatifs en attributs qualitatifs. \\
+\end{itemize}
+
+Ainsi pour chaque outil de fouille listé dans la section précédente nous appliquons les transformations suivantes :\\
+
+\begin{itemize}
+    \item SVM et MLP : Le SVM et le MLP ne supportant que des attributs quantitatifs et étant plus efficace pour des valeurs sur la même échelle, nous avons appliqué une standardisation pour les attributs quantitatifs et un encodage One Hot pour les attributs qualitatifs.\\
+    
+    \item KNN : Le KNN fonctionnant avec des coordonnées et une notion de distance, il ne supporte également que les attributs quantitatifs et est plus efficace si les valeurs sont sur la même échelle. Ainsi nous avons appliqué une standardisation des attributs quantitatifs. De plus nous avons opté pour une transformation des attributs qualitatifs par un encodage ordinal. En effet, le KNN fonctionnant avec des coordonnées et étant moins performant sur un grand nombre de dimensions, il est préférable d'éviter l'encodage One Hot qui apporte un grand nombre de dimensions et dont l'absence de notion d'ordre n'apporte pas d'avantage.\\
+    
+    \item Naive Bayes : Le Naive Bayes, dans notre cas catégoriel, fonctionne sur des attributs quantitatifs discrétisés. Ainsi les attributs qualitatifs subissent un encodage One Hot et les attributs quantitatifs subissent une discrétisation.
 \end{itemize}
 
 
@@ -499,6 +684,39 @@ Les méthodes évoquées précédemment nécessitent un recodage des données af
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Méthode expérimentale}
+
+Pour évaluer la qualité des résultats, nous avons décomposé nos données en un ensemble d'entrainement contenant 60\% des données, un ensemble de validation contenant 20\% des données et un ensemble de test contenant les 20\% restants. Cette séparation est plutôt classique et nous permet d'entrainer nos modèles sur la majorité des données puis de les évaluer sur une partie des donnée. Une fois le meilleur modèle choisi en fonction de sa performance sur l'ensemble de validation, nous le testerons sur l'ensemble de test.\\
+Afin d'assurer que nos 3 ensembles aient la même distribution, nous avons séparé les démissionnaires des non démissionnaires, séparé chacun des deux groupes en ensembles d'entrainement, test et validation puis fusionné et mélangé les données de chaque sous-groupe.\\
+Assurer la même distribution permet d'être sûr d'avoir des individus de la classe minoritaire dans chaque ensemble et aide notamment Naives Bayes qui s'appuie sur des probabilités.\\
+
+\subsubsection{Mesure de performance}
+Afin de mesurer les performances de nos modèles, nous avons récupéré une multitude de métriques afin d'avoir un aperçu de ce que nous avions à notre disposition. Nous avons ensuite déterminé celles qui nous intéressaient réellement sans pour autant supprimer les autres méthodes de notre processus. En effet, garder les autres méthodes permet de conserver un point de vue différent sur nos modèles.\\
+Voici les différentes métriques que nous avons explorées:\\
+
+\begin{itemize}
+	\item \textbf{accuracy} - L'accuracy se calcule comme $Accuracy = \frac{N_{correct}}{N_{total}}$, où $N_{correct}$ est le nombre de prédictions correctes et $N_{total}$ est le nombre total de prédictions. Le problème de cette métrique dans notre cas n'est pas très adaptée car nous avons une classe très minoritaire. Ainsi, si un modèle prédit toujours la classe majoritaire, son accuracy sera très élevée.\\
+
+	\item \textbf{Matrice de confusion} - La matrice de confusion s'écrit
+		$
+		\begin{pmatrix}
+			& TP & FP & \\
+			& FN & TN & 
+		\end{pmatrix}
+		$ où TP, FP, FN, TN sont les abréviations pour True Positive, False Positive, False Negative et True negative respectivement. La matrice de confusion donne un aperçu direct de comment ont été classées les données et il est toujours intéressant de s'y référer. Nous gardons cette métrique pour cette raison mais nous ne l'utiliserons pas pour comparer nos modèles entre eux car ce serait trop fastidieux.\\
+		
+	\item \textbf{Precision} - La précision (ou exactitude) est définie comme le nombre de prédictions correctes de la classe positive par rapport au nombre total de prédictions de la classe positive. Elle peut être calculée en utilisant la formule suivante :$Precision = \frac{TP}{TP+FP}$. Ce calcul est effectué pour chaque classe mais nous avons également récupéré ce résultat sous la forme d'une somme pondérée par le nombre d'instance de chaque classe. Cette métrique mesure la capacité du modèle à ne pas attribuer le label d'une classe à un exemple d'une autre classe, c'est pourquoi nous le sélectionnons. Nous garderons cette mesure sous la forme d'un seul résultat pondéré pour la facilité de comparaison que cela permet. De plus, nous avons observé des écart intéressant entre nos modèles sur cette métrique qui s'est donc avérée assez sensible. Cette métrique sera utilisée pour vérifier la cohérence notre classement.\\
+
+	\item \textbf{Recall} - Le rappel (ou sensibilité) est défini comme le nombre de prédictions correctes de la classe positive par rapport au nombre total d'exemples de la classe positive. Il peut être calculé en utilisant la formule suivante : $Recall = \frac{TP}{TP+FN}$. Cette métrique donne une mesure de la capacité du modèle à trouver classer tous les exemples d'une classe comme faisant partie de cette classe. Nous sélectionnons cette métrique pour la même raison que la précédente. Nous l'utiliserons pour vérifier la cohérence de notre classement.
+	\item 
+
+	\item \textbf{F1 Score} - Nous parlerons également de fscore. Il s'agit d'une mesure qui prends en compte la Precision et le Recall en en calculant la moyenne harmonique de cette façon: $F1 = 2*\frac{Precision*Recall}{Precision+Recall}$. Cette métrique sera notre mesure de comparaison principale car elle résume en un chiffre les deux métriques qui nous intéressaient précédemment.
+
+	\item \textbf{rocauc} La formule pour calculer l'aire sous la courbe ROC (AUC-ROC) en LaTeX est: $AUC = \frac{\sum_{i=1}^{n} TPR_i}{\frac{n(n-1)}{2}}$ où $TPR$ est la vrai proportion positive (sensibilité) et $n$ est le nombre de points de coupure de la courbe ROC. La courbe rocauc affiche le trade off entre taux de vrai positif et de faux positif et on cherche à maximiser l'aire sous cette courbe. Nous incluons cette métrique par pure curiosité mais nous ne l'utiliserons pas pour l'interprétation car nous avons déjà sélectionné des métriques suffisantes.
+
+	\item \textbf{}
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implémentation}

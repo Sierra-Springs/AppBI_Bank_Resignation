@@ -39,6 +39,7 @@ if __name__ == '__main__':
 
         # Enregistrement du modèle complet dans un fichier
         model_path = cometMLManager.save_model_to_file(model=model, model_name="NaiveBayesBase")
+
         # Enregistrement du modèle (du fichier) vers l'expérience CometML
         cometMLManager.log_model(_model_name="NaiveBayesBase")
 

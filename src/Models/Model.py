@@ -11,13 +11,18 @@ import pickle
 
 
 class Model:
-    def __init__(self, clf, data_provider, name=None):
+    def __init__(self, clf, data_provider, params=None, name=None):
+        if params == None:
+            params = dict()
         if isinstance(clf, str):
             self.load_sklearn_model(clf)
         else:
-            self.clf = clf
+            self.clf = clf(**params)
         self.dataProvider = data_provider
         self.data = self.dataProvider.get_data_prepare()
+        self.auto_name(name)
+
+    def auto_name(self, name):
         self.name = self.__class__.__name__ if name is None else name
 
     def save_sklearn_model(self):
